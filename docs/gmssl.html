@@ -2,10 +2,10 @@
 <html lang="en" data-color-mode="dark">
 <head>
 <meta charset="utf-8">
-<title>GmSSL 备忘清单
+<title>GmSSL for Bash 
  &#x26;  gmssl cheatsheet &#x26;  Quick Reference</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta description="GmSSL 备忘清单
+<meta description="GmSSL for Bash 
 ===
 
 这个 GmSSL: 支持国密SM2/SM3/SM4/SM9/SSL的密码工具箱 快速参考备忘单展示了它的常用命令使用清单
@@ -30,13 +30,13 @@
 <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" class="dark" height="1em" width="1em">
   <path d="M12 11.807A9.002 9.002 0 0 1 10.049 2a9.942 9.942 0 0 0-5.12 2.735c-3.905 3.905-3.905 10.237 0 14.142 3.906 3.906 10.237 3.905 14.143 0a9.946 9.946 0 0 0 2.735-5.119A9.003 9.003 0 0 1 12 11.807z"></path>
 </svg>
-</button><script src="../js/dark.js?v=1.5.3"></script><a href="https://github.com/xin-li-sdu/xin-li-sdu" class="" target="__blank"><svg viewBox="0 0 16 16" fill="currentColor" height="1em" width="1em"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"></path></svg></a></div></div></nav><div class="wrap h1body-exist max-container"><header class="wrap-header h1wrap"><h1 id="gmssl-备忘清单"><svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" fill="currentColor" height="1em" width="1em">
+</button><script src="../js/dark.js?v=1.5.3"></script><a href="https://github.com/xin-li-sdu/xin-li-sdu" class="" target="__blank"><svg viewBox="0 0 16 16" fill="currentColor" height="1em" width="1em"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"></path></svg></a></div></div></nav><div class="wrap h1body-exist max-container"><header class="wrap-header h1wrap"><h1 id="gmssl-for-bash"><svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" fill="currentColor" height="1em" width="1em">
   <path d="M107.946667 838.4l57.173333 23.893333v-385.28l-103.68 250.026667c-17.493333 43.52 3.413333 93.44 46.506667 111.36z m832-157.866667L728.32 169.813333a85.888 85.888 0 0 0-77.226667-52.48c-11.093333 0-22.613333 1.706667-33.706666 6.4L302.933333 253.866667a85.290667 85.290667 0 0 0-46.08 110.933333l211.626667 510.72a85.248 85.248 0 0 0 110.933333 46.08l314.026667-130.133333a85.077333 85.077333 0 0 0 46.506667-110.933334zM336.213333 373.333333c-23.466667 0-42.666667-19.2-42.666666-42.666666s19.2-42.666667 42.666666-42.666667 42.666667 19.2 42.666667 42.666667-19.2 42.666667-42.666667 42.666666z m-85.333333 469.333334c0 46.933333 38.4 85.333333 85.333333 85.333333h61.866667l-147.2-355.84v270.506667z"></path>
-</svg><a aria-hidden="true" tabindex="-1" href="#gmssl-备忘清单"><span class="icon icon-link"></span></a>GmSSL 备忘清单</h1><div class="wrap-body">
+</svg><a aria-hidden="true" tabindex="-1" href="#gmssl-for-bash"><span class="icon icon-link"></span></a>GmSSL for Bash</h1><div class="wrap-body">
 <p>这个 <a href="https://github.com/guanzhi/GmSSL">GmSSL: 支持国密SM2/SM3/SM4/SM9/SSL的密码工具箱 </a>快速参考备忘单展示了它的常用命令使用清单</p>
 </div></header><div class="menu-tocs"><div class="menu-btn"><svg aria-hidden="true" fill="currentColor" height="1em" width="1em" viewBox="0 0 16 16" version="1.1" data-view-component="true">
   <path fill-rule="evenodd" d="M2 4a1 1 0 100-2 1 1 0 000 2zm3.75-1.5a.75.75 0 000 1.5h8.5a.75.75 0 000-1.5h-8.5zm0 5a.75.75 0 000 1.5h8.5a.75.75 0 000-1.5h-8.5zm0 5a.75.75 0 000 1.5h8.5a.75.75 0 000-1.5h-8.5zM3 8a1 1 0 11-2 0 1 1 0 012 0zm-1 6a1 1 0 100-2 1 1 0 000 2z"></path>
-</svg></div><div class="menu-modal"><a aria-hidden="true" class="leve2 tocs-link" data-num="2" href="#主要特性">主要特性</a><a aria-hidden="true" class="leve3 tocs-link" data-num="3" href="#主要特性-1">主要特性</a><a aria-hidden="true" class="leve2 tocs-link" data-num="2" href="#编译与安装">编译与安装</a><a aria-hidden="true" class="leve3 tocs-link" data-num="3" href="#cmake构建">cmake构建</a><a aria-hidden="true" class="leve3 tocs-link" data-num="3" href="#visual-studio环境编译">Visual Studio环境编译</a><a aria-hidden="true" class="leve2 tocs-link" data-num="2" href="#主要功能">主要功能</a></div></div><div class="h1wrap-body"><div class="wrap h2body-exist"><div class="wrap-header h2wrap"><h2 id="主要特性"><a aria-hidden="true" tabindex="-1" href="#主要特性"><span class="icon icon-link"></span></a>主要特性</h2><div class="wrap-body">
+</svg></div><div class="menu-modal"><a aria-hidden="true" class="leve2 tocs-link" data-num="2" href="#主要特性">主要特性</a><a aria-hidden="true" class="leve3 tocs-link" data-num="3" href="#主要特性-1">主要特性</a><a aria-hidden="true" class="leve2 tocs-link" data-num="2" href="#编译与安装">编译与安装</a><a aria-hidden="true" class="leve3 tocs-link" data-num="3" href="#cmake构建">cmake构建</a><a aria-hidden="true" class="leve3 tocs-link" data-num="3" href="#visual-studio环境编译">Visual Studio环境编译</a><a aria-hidden="true" class="leve2 tocs-link" data-num="2" href="#入门">入门</a><a aria-hidden="true" class="leve3 tocs-link" data-num="3" href="#基础">基础</a><a aria-hidden="true" class="leve3 tocs-link" data-num="3" href="#命令行中使用sm3">命令行中使用SM3</a><a aria-hidden="true" class="leve3 tocs-link" data-num="3" href="#命令行中使用sm4默认cbc模式">命令行中使用SM4(默认CBC模式)</a><a aria-hidden="true" class="leve3 tocs-link" data-num="3" href="#命令行中使用sm2">命令行中使用SM2</a><a aria-hidden="true" class="leve3 tocs-link" data-num="3" href="#命令行中使用sm9">命令行中使用SM9</a><a aria-hidden="true" class="leve3 tocs-link" data-num="3" href="#命令行中使用zuc">命令行中使用ZUC</a><a aria-hidden="true" class="leve3 tocs-link" data-num="3" href="#pbkdf2算法">PBKDF2算法</a><a aria-hidden="true" class="leve3 tocs-link" data-num="3" href="#数字证书">数字证书</a></div></div><div class="h1wrap-body"><div class="wrap h2body-exist"><div class="wrap-header h2wrap"><h2 id="主要特性"><a aria-hidden="true" tabindex="-1" href="#主要特性"><span class="icon icon-link"></span></a>主要特性</h2><div class="wrap-body">
 </div></div><div class="h2wrap-body"><div class="wrap h3body-not-exist col-span-3"><div class="wrap-header h3wrap"><h3 id="主要特性-1"><a aria-hidden="true" tabindex="-1" href="#主要特性-1"><span class="icon icon-link"></span></a>主要特性</h3><div class="wrap-body">
 <!--rehype:wrap-class=col-span-3-->
 <p>超轻量：GmSSL 3 大幅度降低了内存需求和二进制代码体积，不依赖动态内存，可以用于无操作系统的低功耗嵌入式环境(MCU、SOC等)，开发者也可以更容易地将国密算法和SSL协议嵌入到现有的项目中。</p>
@@ -61,8 +61,103 @@
 </span><span class="code-line">cmake <span class="token punctuation">..</span> <span class="token parameter variable">-G</span> <span class="token string">"NMake Makefiles"</span>
 </span><span class="code-line">nmake
 </span></code></pre>
-</div></div></div></div></div><div class="wrap h2body-not-exist"><div class="wrap-header h2wrap"><h2 id="主要功能"><a aria-hidden="true" tabindex="-1" href="#主要功能"><span class="icon icon-link"></span></a>主要功能</h2><div class="wrap-body">
-</div></div><div class="h2wrap-body"></div></div></div><script src="https://giscus.app/client.js" data-repo="jaywcjlove/reference" data-repo-id="R_kgDOID2-Mw" data-category="Q&#x26;A" data-category-id="DIC_kwDOID2-M84CS5wo" data-mapping="pathname" data-strict="0" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="bottom" data-theme="dark" data-lang="zh-CN" crossorigin="anonymous" async></script><div class="giscus"></div></div><footer class="footer-wrap"><footer class="max-container">Copyright (c) <b>2024</b> xin-li™</footer></footer><script src="..\/data.js?v=1.5.3" defer></script><script src="..\/js/fuse.min.js?v=1.5.3" defer></script><script src="..\/js/main.js?v=1.5.3" defer></script><div id="mysearch"><div class="mysearch-box"><div class="mysearch-input"><div><svg xmlns="http://www.w3.org/2000/svg" height="1em" width="1em" viewBox="0 0 18 18">
+</div></div></div></div></div><div class="wrap h2body-exist"><div class="wrap-header h2wrap"><h2 id="入门"><a aria-hidden="true" tabindex="-1" href="#入门"><span class="icon icon-link"></span></a>入门</h2><div class="wrap-body">
+</div></div><div class="h2wrap-body"><div class="wrap h3body-not-exist"><div class="wrap-header h3wrap"><h3 id="基础"><a aria-hidden="true" tabindex="-1" href="#基础"><span class="icon icon-link"></span></a>基础</h3><div class="wrap-body">
+<p>gmssl版本</p>
+<pre class="language-bash"><code class="language-bash code-highlight"><span class="code-line">$ gmssl version
+</span></code></pre>
+<p>gmssl所有命令</p>
+<pre class="language-bash"><code class="language-bash code-highlight"><span class="code-line">$ gmssl <span class="token builtin class-name">help</span>
+</span></code></pre>
+<p>gmssl子命令参数含义</p>
+<pre class="language-bash"><code class="language-bash code-highlight"><span class="code-line">$ gmssl sms4-ecb <span class="token parameter variable">-help</span>
+</span></code></pre>
+</div></div></div><div class="wrap h3body-not-exist"><div class="wrap-header h3wrap"><h3 id="命令行中使用sm3"><a aria-hidden="true" tabindex="-1" href="#命令行中使用sm3"><span class="icon icon-link"></span></a>命令行中使用SM3</h3><div class="wrap-body">
+<p><code>SM3</code>计算摘要：</p>
+<pre class="language-bash"><code class="language-bash code-highlight"><span class="code-line">$ <span class="token builtin class-name">echo</span> <span class="token parameter variable">-n</span> hello <span class="token operator">|</span> gmssl dgst <span class="token parameter variable">-sm3</span>
+</span></code></pre>
+<p><code>SM3</code>计算HMAC：</p>
+<pre class="language-bash"><code class="language-bash code-highlight"><span class="code-line">$ <span class="token builtin class-name">echo</span> <span class="token parameter variable">-n</span> hello <span class="token operator">|</span> gmssl dgst <span class="token parameter variable">-sm3</span> <span class="token parameter variable">-hmac</span> <span class="token number">11223344556677881122334455667788</span>
+</span></code></pre>
+</div></div></div><div class="wrap h3body-not-exist"><div class="wrap-header h3wrap"><h3 id="命令行中使用sm4默认cbc模式"><a aria-hidden="true" tabindex="-1" href="#命令行中使用sm4默认cbc模式"><span class="icon icon-link"></span></a>命令行中使用SM4(默认CBC模式)</h3><div class="wrap-body">
+<p><code>SM4</code>对输入字符加密：</p>
+<pre class="language-bash"><code class="language-bash code-highlight"><span class="code-line">$ <span class="token builtin class-name">echo</span> hello <span class="token operator">|</span> gmssl enc -sms4-cbc <span class="token operator">></span> ciphertext.bin
+</span></code></pre>
+<p><code>SM4</code>对加密文件解密</p>
+<pre class="language-bash"><code class="language-bash code-highlight"><span class="code-line">$ <span class="token function">cat</span> cipehrtext.bin <span class="token operator">|</span> gmssl enc -sms4-cbc <span class="token parameter variable">-d</span>
+</span></code></pre>
+<p><code>SM4-CBC</code>模式对test.txt文件进行加解密：</p>
+<pre class="language-bash"><code class="language-bash code-highlight"><span class="code-line"><span class="token variable">$gmssl</span> sms4-cbc <span class="token parameter variable">-K</span> <span class="token number">11223344556677881122334455667788</span> <span class="token parameter variable">-iv</span> <span class="token number">11223344556677881122334455667788</span> <span class="token parameter variable">-in</span> test.txt <span class="token parameter variable">-out</span> testcbc.txt <span class="token parameter variable">-e</span>
+</span><span class="code-line">
+</span><span class="code-line"><span class="token variable">$gmssl</span> sms4-cbc <span class="token parameter variable">-K</span> <span class="token number">11223344556677881122334455667788</span> <span class="token parameter variable">-iv</span> <span class="token number">11223344556677881122334455667788</span> <span class="token parameter variable">-in</span> testcbc.txt <span class="token parameter variable">-out</span> testmm.txt <span class="token parameter variable">-d</span> 
+</span></code></pre>
+</div></div></div><div class="wrap h3body-not-exist"><div class="wrap-header h3wrap"><h3 id="命令行中使用sm2"><a aria-hidden="true" tabindex="-1" href="#命令行中使用sm2"><span class="icon icon-link"></span></a>命令行中使用SM2</h3><div class="wrap-body">
+<p><code>SM2</code>生成私钥(对生成的<code>SM2</code>私钥使用<code>SM4</code>进行加密后输出)</p>
+<pre class="language-bash"><code class="language-bash code-highlight"><span class="code-line">$ gmssl sm2 <span class="token parameter variable">-genkey</span> <span class="token parameter variable">-sms4</span> <span class="token parameter variable">-out</span> sm2.pem 
+</span></code></pre>
+<p>导出<code>SM2</code>公钥</p>
+<pre class="language-bash"><code class="language-bash code-highlight"><span class="code-line">$ gmssl sm2 <span class="token parameter variable">-in</span> sm2.pem <span class="token parameter variable">-pubout</span> <span class="token parameter variable">-out</span> sm2Pub.pem
+</span></code></pre>
+<p><code>SM2</code>签名</p>
+<pre class="language-bash"><code class="language-bash code-highlight"><span class="code-line">$ gmssl sm2utl <span class="token parameter variable">-sign</span> <span class="token parameter variable">-in</span> msg.txt <span class="token parameter variable">-inkey</span> sm2.pem <span class="token parameter variable">-id</span> zongpengxin <span class="token parameter variable">-out</span> sig.der
+</span></code></pre>
+<p><code>SM2</code>验签</p>
+<pre class="language-bash"><code class="language-bash code-highlight"><span class="code-line">$ gmssl sm2utl <span class="token parameter variable">-verify</span> <span class="token parameter variable">-in</span> msg.txt <span class="token parameter variable">-sigfile</span> sig.der <span class="token parameter variable">-pubin</span> <span class="token parameter variable">-in</span> sm2Pub.pem <span class="token parameter variable">-id</span> Alice
+</span></code></pre>
+<p><code>SM2</code>加密</p>
+<pre class="language-bash"><code class="language-bash code-highlight"><span class="code-line">$ gmssl sm2utl <span class="token parameter variable">-encrypt</span> <span class="token parameter variable">-in</span> msg.txt <span class="token parameter variable">-pubin</span> <span class="token parameter variable">-inkey</span> sm2Pub.pem <span class="token parameter variable">-out</span> enced.der
+</span></code></pre>
+<p><code>SM2</code>解密</p>
+<pre class="language-bash"><code class="language-bash code-highlight"><span class="code-line">$ gmssl sm2utl <span class="token parameter variable">-decrypt</span> <span class="token parameter variable">-in</span> enced.der <span class="token parameter variable">-inkey</span> sm2.pem
+</span></code></pre>
+</div></div></div><div class="wrap h3body-not-exist col-span-2"><div class="wrap-header h3wrap"><h3 id="命令行中使用sm9"><a aria-hidden="true" tabindex="-1" href="#命令行中使用sm9"><span class="icon icon-link"></span></a>命令行中使用SM9</h3><div class="wrap-body">
+<!--rehype:wrap-class=col-span-2-->
+<p>生成<code>SM9 </code>主公钥/主私钥</p>
+<pre class="language-bash"><code class="language-bash code-highlight"><span class="code-line">$ gmssl sm9setup <span class="token parameter variable">-alg</span> sm9sign <span class="token parameter variable">-pass</span> <span class="token number">1234</span> <span class="token parameter variable">-out</span> sign_msk.pem <span class="token parameter variable">-pubout</span> sign_mpk.pem
+</span></code></pre>
+<p>使用主私钥生成用户私钥(使用outpass参数指定的口令加密)</p>
+<pre class="language-bash"><code class="language-bash code-highlight"><span class="code-line">$ gmssl sm9keygen <span class="token parameter variable">-alg</span> sm9sign <span class="token parameter variable">-in</span> sign_msk.pem <span class="token parameter variable">-inpass</span> <span class="token number">1234</span> <span class="token parameter variable">-id</span> alice <span class="token parameter variable">-out</span> alice.pem <span class="token parameter variable">-outpass</span> <span class="token number">1234</span>
+</span></code></pre>
+<p>使用用户私钥对数据进行签名，生成签名</p>
+<pre class="language-bash"><code class="language-bash code-highlight"><span class="code-line">$ <span class="token builtin class-name">echo</span> hello <span class="token operator">|</span> gmssl sm9sign <span class="token parameter variable">-key</span> alice.pem <span class="token parameter variable">-pass</span> <span class="token number">1234</span>  <span class="token parameter variable">-out</span> hello.sig
+</span></code></pre>
+<p>使用主公钥对签名数据进行验签</p>
+<pre class="language-bash"><code class="language-bash code-highlight"><span class="code-line">$ <span class="token builtin class-name">echo</span> hello <span class="token operator">|</span> gmssl sm9verify <span class="token parameter variable">-pubmaster</span> sign_mpk.pem <span class="token parameter variable">-id</span> alice <span class="token parameter variable">-sig</span> hello.sig
+</span></code></pre>
+<p>使用主公钥以及用户id进行加密</p>
+<pre class="language-bash"><code class="language-bash code-highlight"><span class="code-line">$ <span class="token builtin class-name">echo</span> hello <span class="token operator">|</span> gmssl sm9encrypt <span class="token parameter variable">-pubmaster</span> enc_mpk.pem <span class="token parameter variable">-id</span> bob <span class="token parameter variable">-out</span> hello.der
+</span></code></pre>
+<p>使用用户私钥解密</p>
+<pre class="language-bash"><code class="language-bash code-highlight"><span class="code-line">$ gmssl sm9decrypt <span class="token parameter variable">-key</span> bob.pem <span class="token parameter variable">-pass</span> <span class="token number">1234</span> <span class="token parameter variable">-id</span> bob <span class="token parameter variable">-in</span> hello.der
+</span></code></pre>
+</div></div></div><div class="wrap h3body-not-exist"><div class="wrap-header h3wrap"><h3 id="命令行中使用zuc"><a aria-hidden="true" tabindex="-1" href="#命令行中使用zuc"><span class="icon icon-link"></span></a>命令行中使用ZUC</h3><div class="wrap-body">
+<p>注：由于ZUC算法是对称加密算法，所以加密解密的操作是一样的。</p>
+<p>设置ZUC算法加密所需的秘钥和IV</p>
+<pre class="language-bash"><code class="language-bash code-highlight"><span class="code-line"><span class="token assign-left variable">KEY</span><span class="token operator">=</span><span class="token number">11223344556677881122334455667788</span>
+</span><span class="code-line"><span class="token assign-left variable">IV</span><span class="token operator">=</span><span class="token number">11223344556677881122334455667788</span>
+</span></code></pre>
+<p>使用秘钥和IV对数据进行加密和解密</p>
+<pre class="language-bash"><code class="language-bash code-highlight"><span class="code-line">$ <span class="token builtin class-name">echo</span> hello <span class="token operator">|</span> gmssl zuc <span class="token parameter variable">-key</span> <span class="token variable">$KEY</span> <span class="token parameter variable">-iv</span> <span class="token variable">$IV</span> <span class="token parameter variable">-out</span> zuc.bin
+</span><span class="code-line">$ gmssl zuc <span class="token parameter variable">-key</span> <span class="token variable">$KEY</span> <span class="token parameter variable">-iv</span> <span class="token variable">$IV</span> <span class="token parameter variable">-in</span> zuc.bin
+</span></code></pre>
+</div></div></div><div class="wrap h3body-not-exist"><div class="wrap-header h3wrap"><h3 id="pbkdf2算法"><a aria-hidden="true" tabindex="-1" href="#pbkdf2算法"><span class="icon icon-link"></span></a>PBKDF2算法</h3><div class="wrap-body">
+<p>使用PBKDF2算法，对password 1234 和salt进行6000次哈希计算</p>
+<pre class="language-bash"><code class="language-bash code-highlight"><span class="code-line">$ gmssl pbkdf2 <span class="token parameter variable">-pass</span> <span class="token number">1234</span> <span class="token parameter variable">-salt</span> <span class="token number">1122334455667788</span> <span class="token parameter variable">-iter</span> <span class="token number">60000</span> <span class="token parameter variable">-outlen</span> <span class="token number">16</span>
+</span></code></pre>
+<p>注：PBKDF2(Password-Based Key Derivation Function) 应用一个伪随机函数以导出密钥。导出密钥的长度本质上是没有限制的（但是，导出密钥的最大有效搜索空间受限于基本伪随机函数的结构）。</p>
+<p>它的基本原理是通过一个伪随机函数（例如 HMAC 函数），把明文和一个盐值作为输入参数，然后重复进行运算，并最终产生密钥。</p>
+</div></div></div><div class="wrap h3body-not-exist"><div class="wrap-header h3wrap"><h3 id="数字证书"><a aria-hidden="true" tabindex="-1" href="#数字证书"><span class="icon icon-link"></span></a>数字证书</h3><div class="wrap-body">
+<p>生成自签名证书</p>
+<pre class="language-bash"><code class="language-bash code-highlight"><span class="code-line">gmssl sm2keygen <span class="token parameter variable">-pass</span> <span class="token number">1234</span> <span class="token parameter variable">-out</span> sm2.pem <span class="token parameter variable">-pubout</span> sm2pub.pem
+</span><span class="code-line">
+</span><span class="code-line">gmssl certgen <span class="token parameter variable">-C</span> CN <span class="token parameter variable">-ST</span> Beijing <span class="token parameter variable">-L</span> Haidian <span class="token parameter variable">-O</span> PKU <span class="token parameter variable">-OU</span> CS <span class="token parameter variable">-CN</span> Alice <span class="token parameter variable">-days</span> <span class="token number">365</span> <span class="token parameter variable">-key</span> sm2.pem <span class="token parameter variable">-pass</span> <span class="token number">1234</span> <span class="token punctuation">\</span>
+</span><span class="code-line">  <span class="token parameter variable">-key_usage</span> <span class="token string">"digitalSignature"</span> <span class="token parameter variable">-key_usage</span> <span class="token string">"keyCertSign"</span> <span class="token parameter variable">-key_usage</span> cRLSign <span class="token punctuation">\</span>
+</span><span class="code-line">  <span class="token parameter variable">-out</span> cert.pem
+</span></code></pre>
+<p>解析数字证书</p>
+<pre class="language-bash"><code class="language-bash code-highlight"><span class="code-line">gmssl certparse <span class="token parameter variable">-in</span> cert.pem
+</span></code></pre>
+</div></div></div></div></div></div><script src="https://giscus.app/client.js" data-repo="jaywcjlove/reference" data-repo-id="R_kgDOID2-Mw" data-category="Q&#x26;A" data-category-id="DIC_kwDOID2-M84CS5wo" data-mapping="pathname" data-strict="0" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="bottom" data-theme="dark" data-lang="zh-CN" crossorigin="anonymous" async></script><div class="giscus"></div></div><footer class="footer-wrap"><footer class="max-container">Copyright (c) <b>2024</b> xin-li™</footer></footer><script src="..\/data.js?v=1.5.3" defer></script><script src="..\/js/fuse.min.js?v=1.5.3" defer></script><script src="..\/js/main.js?v=1.5.3" defer></script><div id="mysearch"><div class="mysearch-box"><div class="mysearch-input"><div><svg xmlns="http://www.w3.org/2000/svg" height="1em" width="1em" viewBox="0 0 18 18">
   <path fill="currentColor" d="M17.71,16.29 L14.31,12.9 C15.4069846,11.5024547 16.0022094,9.77665502 16,8 C16,3.581722 12.418278,0 8,0 C3.581722,0 0,3.581722 0,8 C0,12.418278 3.581722,16 8,16 C9.77665502,16.0022094 11.5024547,15.4069846 12.9,14.31 L16.29,17.71 C16.4777666,17.8993127 16.7333625,18.0057983 17,18.0057983 C17.2666375,18.0057983 17.5222334,17.8993127 17.71,17.71 C17.8993127,17.5222334 18.0057983,17.2666375 18.0057983,17 C18.0057983,16.7333625 17.8993127,16.4777666 17.71,16.29 Z M2,8 C2,4.6862915 4.6862915,2 8,2 C11.3137085,2 14,4.6862915 14,8 C14,11.3137085 11.3137085,14 8,14 C4.6862915,14 2,11.3137085 2,8 Z"></path>
 </svg><input id="mysearch-input" type="search" placeholder="搜索" autocomplete="off"><div class="mysearch-clear"></div></div><button id="mysearch-close" type="button">搜索</button></div><div class="mysearch-result"><div id="mysearch-menu"></div><div id="mysearch-content"></div></div></div></div></body>
 </html>
