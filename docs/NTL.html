@@ -1,0 +1,295 @@
+<!doctype html>
+<html lang="en" data-color-mode="dark">
+<head>
+<meta charset="utf-8">
+<title> NTL
+ &#x26;  NTL cheatsheet &#x26;  Quick Reference</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta description="NTL是一个高性能、可移植的C++库，为任意长度的整数提供数据结构和算法，为开发人员分享快速参考备忘单。">
+<meta keywords="NTL,reference,Quick,Reference,cheatsheet,cheat,sheet">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20height%3D%221em%22%20width%3D%221em%22%3E%20%3Cpath%20d%3D%22m21.66%2010.44-.98%204.18c-.84%203.61-2.5%205.07-5.62%204.77-.5-.04-1.04-.13-1.62-.27l-1.68-.4c-4.17-.99-5.46-3.05-4.48-7.23l.98-4.19c.2-.85.44-1.59.74-2.2%201.17-2.42%203.16-3.07%206.5-2.28l1.67.39c4.19.98%205.47%203.05%204.49%207.23Z%22%20fill%3D%22%23c9d1d9%22%2F%3E%20%3Cpath%20d%3D%22M15.06%2019.39c-.62.42-1.4.77-2.35%201.08l-1.58.52c-3.97%201.28-6.06.21-7.35-3.76L2.5%2013.28c-1.28-3.97-.22-6.07%203.75-7.35l1.58-.52c.41-.13.8-.24%201.17-.31-.3.61-.54%201.35-.74%202.2l-.98%204.19c-.98%204.18.31%206.24%204.48%207.23l1.68.4c.58.14%201.12.23%201.62.27Zm2.43-8.88c-.06%200-.12-.01-.19-.02l-4.85-1.23a.75.75%200%200%201%20.37-1.45l4.85%201.23a.748.748%200%200%201-.18%201.47Z%22%20fill%3D%22%23228e6c%22%20%2F%3E%20%3Cpath%20d%3D%22M14.56%2013.89c-.06%200-.12-.01-.19-.02l-2.91-.74a.75.75%200%200%201%20.37-1.45l2.91.74c.4.1.64.51.54.91-.08.34-.38.56-.72.56Z%22%20fill%3D%22%23228e6c%22%20%2F%3E%20%3C%2Fsvg%3E" type="image/svg+xml">
+<link rel="stylesheet" href="..\style\style.css">
+<link rel="stylesheet" href="..\style\katex.css">
+</head>
+<body><nav class="header-nav"><div class="max-container"><a href="..\index.html" class="logo"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" height="1em" width="1em">
+  <path d="m21.66 10.44-.98 4.18c-.84 3.61-2.5 5.07-5.62 4.77-.5-.04-1.04-.13-1.62-.27l-1.68-.4c-4.17-.99-5.46-3.05-4.48-7.23l.98-4.19c.2-.85.44-1.59.74-2.2 1.17-2.42 3.16-3.07 6.5-2.28l1.67.39c4.19.98 5.47 3.05 4.49 7.23Z" fill="#c9d1d9"></path>
+  <path d="M15.06 19.39c-.62.42-1.4.77-2.35 1.08l-1.58.52c-3.97 1.28-6.06.21-7.35-3.76L2.5 13.28c-1.28-3.97-.22-6.07 3.75-7.35l1.58-.52c.41-.13.8-.24 1.17-.31-.3.61-.54 1.35-.74 2.2l-.98 4.19c-.98 4.18.31 6.24 4.48 7.23l1.68.4c.58.14 1.12.23 1.62.27Zm2.43-8.88c-.06 0-.12-.01-.19-.02l-4.85-1.23a.75.75 0 0 1 .37-1.45l4.85 1.23a.748.748 0 0 1-.18 1.47Z" fill="#228e6c"></path>
+  <path d="M14.56 13.89c-.06 0-.12-.01-.19-.02l-2.91-.74a.75.75 0 0 1 .37-1.45l2.91.74c.4.1.64.51.54.91-.08.34-.38.56-.72.56Z" fill="#228e6c"></path>
+</svg>
+<span class="title">Quick Reference</span></a><div class="menu"><a href="javascript:void(0);" class="searchbtn" id="searchbtn"><svg xmlns="http://www.w3.org/2000/svg" height="1em" width="1em" viewBox="0 0 18 18">
+  <path fill="currentColor" d="M17.71,16.29 L14.31,12.9 C15.4069846,11.5024547 16.0022094,9.77665502 16,8 C16,3.581722 12.418278,0 8,0 C3.581722,0 0,3.581722 0,8 C0,12.418278 3.581722,16 8,16 C9.77665502,16.0022094 11.5024547,15.4069846 12.9,14.31 L16.29,17.71 C16.4777666,17.8993127 16.7333625,18.0057983 17,18.0057983 C17.2666375,18.0057983 17.5222334,17.8993127 17.71,17.71 C17.8993127,17.5222334 18.0057983,17.2666375 18.0057983,17 C18.0057983,16.7333625 17.8993127,16.4777666 17.71,16.29 Z M2,8 C2,4.6862915 4.6862915,2 8,2 C11.3137085,2 14,4.6862915 14,8 C14,11.3137085 11.3137085,14 8,14 C4.6862915,14 2,11.3137085 2,8 Z"></path>
+</svg><span>搜索</span><span>⌘K</span></a><a href="https://github.com/xin-li-sdu/xin-li-sdu/blob/main/docs/NTL.md" class="" target="__blank"><svg viewBox="0 0 36 36" fill="currentColor" height="1em" width="1em"><path d="m33 6.4-3.7-3.7a1.71 1.71 0 0 0-2.36 0L23.65 6H6a2 2 0 0 0-2 2v22a2 2 0 0 0 2 2h22a2 2 0 0 0 2-2V11.76l3-3a1.67 1.67 0 0 0 0-2.36ZM18.83 20.13l-4.19.93 1-4.15 9.55-9.57 3.23 3.23ZM29.5 9.43 26.27 6.2l1.85-1.85 3.23 3.23Z"></path><path fill="none" d="M0 0h36v36H0z"></path></svg><span>编辑</span></a><button id="darkMode" type="button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="light" height="1em" width="1em">
+  <path d="M6.995 12c0 2.761 2.246 5.007 5.007 5.007s5.007-2.246 5.007-5.007-2.246-5.007-5.007-5.007S6.995 9.239 6.995 12zM11 19h2v3h-2zm0-17h2v3h-2zm-9 9h3v2H2zm17 0h3v2h-3zM5.637 19.778l-1.414-1.414 2.121-2.121 1.414 1.414zM16.242 6.344l2.122-2.122 1.414 1.414-2.122 2.122zM6.344 7.759 4.223 5.637l1.415-1.414 2.12 2.122zm13.434 10.605-1.414 1.414-2.122-2.122 1.414-1.414z"></path>
+</svg>
+<svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" class="dark" height="1em" width="1em">
+  <path d="M12 11.807A9.002 9.002 0 0 1 10.049 2a9.942 9.942 0 0 0-5.12 2.735c-3.905 3.905-3.905 10.237 0 14.142 3.906 3.906 10.237 3.905 14.143 0a9.946 9.946 0 0 0 2.735-5.119A9.003 9.003 0 0 1 12 11.807z"></path>
+</svg>
+</button><script src="../js/dark.js?v=1.5.3"></script><a href="https://github.com/xin-li-sdu/xin-li-sdu" class="" target="__blank"><svg viewBox="0 0 16 16" fill="currentColor" height="1em" width="1em"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"></path></svg></a></div></div></nav><div class="wrap h1body-exist max-container"><header class="wrap-header h1wrap"><h1 id="ntl"><svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" height="1em" width="1em" viewBox="0 0 32 32">
+  <path d="M28.057 6.53 17.952.532a3.8 3.8 0 0 0-3.88 0L3.965 6.53A4.03 4.03 0 0 0 2 10.002v11.996a4.03 4.03 0 0 0 1.948 3.472l10.105 5.998a3.8 3.8 0 0 0 3.88 0L28.04 25.47a4.03 4.03 0 0 0 1.948-3.472V10.002a4.03 4.03 0 0 0-1.93-3.472zM20.23 25.262v.86a.318.318 0 0 1-.148.265l-.512.293c-.08.042-.148 0-.148-.113v-.847a1.66 1.66 0 0 1-1.164.113c-.062-.042-.086-.122-.056-.2l.183-.78a.322.322 0 0 1 .102-.17.18.18 0 0 1 .05-.035.11.11 0 0 1 .08 0 1.41 1.41 0 0 0 1.059-.134 1.41 1.41 0 0 0 .79-1.21c0-.438-.24-.62-.82-.625-.734 0-1.4-.14-1.43-1.224a3.137 3.137 0 0 1 1.186-2.4v-.872a.34.34 0 0 1 .148-.268l.494-.314c.08-.042.148 0 .148.116v.872a1.61 1.61 0 0 1 .967-.116c.07.04.098.128.064.2l-.173.773a.325.325 0 0 1-.138.195c-.02.012-.05.008-.074 0a1.28 1.28 0 0 0-.931.152 1.17 1.17 0 0 0-.706 1.037c0 .395.208.515.907.53.935 0 1.337.423 1.348 1.362a3.346 3.346 0 0 1-1.228 2.53zm5.293-1.45a.201.201 0 0 1-.078.194L22.9 25.558c-.024.02-.06.023-.087.007s-.04-.05-.033-.08v-.66a.184.184 0 0 1 .116-.162l2.516-1.507c.024-.02.06-.023.087-.007s.04.05.033.08v.582zM27.288 9.06l-9.562 5.906c-1.193.706-2.07 1.478-2.07 2.914v11.778c0 .86.353 1.4.882 1.58a3.14 3.14 0 0 1-.53.053 3.13 3.13 0 0 1-1.595-.441L4.308 24.853A3.3 3.3 0 0 1 2.706 22V10.002a3.304 3.304 0 0 1 1.602-2.858l10.105-5.998c.98-.58 2.196-.58 3.176 0l10.105 5.998c.833.504 1.4 1.35 1.552 2.3-.328-.713-1.083-.9-1.962-.395h.003z" fill-rule="evenodd"></path>
+</svg>
+<a aria-hidden="true" tabindex="-1" href="#ntl"><span class="icon icon-link"></span></a>NTL</h1><div class="wrap-body">
+<p>NTL是一个高性能、可移植的<code>C++</code>库，为任意长度的整数提供数据结构和算法</p>
+</div></header><div class="menu-tocs"><div class="menu-btn"><svg aria-hidden="true" fill="currentColor" height="1em" width="1em" viewBox="0 0 16 16" version="1.1" data-view-component="true">
+  <path fill-rule="evenodd" d="M2 4a1 1 0 100-2 1 1 0 000 2zm3.75-1.5a.75.75 0 000 1.5h8.5a.75.75 0 000-1.5h-8.5zm0 5a.75.75 0 000 1.5h8.5a.75.75 0 000-1.5h-8.5zm0 5a.75.75 0 000 1.5h8.5a.75.75 0 000-1.5h-8.5zM3 8a1 1 0 11-2 0 1 1 0 012 0zm-1 6a1 1 0 100-2 1 1 0 000 2z"></path>
+</svg></div><div class="menu-modal"><a aria-hidden="true" class="leve2 tocs-link" data-num="2" href="#简介">简介</a><a aria-hidden="true" class="leve3 tocs-link" data-num="3" href="#涉及领域领域">涉及领域领域</a><a aria-hidden="true" class="leve3 tocs-link" data-num="3" href="#平台">平台</a><a aria-hidden="true" class="leve2 tocs-link" data-num="2" href="#ntl及其依赖库安装">NTL及其依赖库安装</a><a aria-hidden="true" class="leve3 tocs-link" data-num="3" href="#gmp库安装">GMP库安装</a><a aria-hidden="true" class="leve3 tocs-link" data-num="3" href="#gf2x库安装">GF2X库安装</a><a aria-hidden="true" class="leve3 tocs-link" data-num="3" href="#ntl库安装">NTL库安装</a><a aria-hidden="true" class="leve2 tocs-link" data-num="2" href="#ntl的使用">NTL的使用</a><a aria-hidden="true" class="leve3 tocs-link" data-num="3" href="#ntl库的基本变量">NTL库的基本变量</a><a aria-hidden="true" class="leve3 tocs-link" data-num="3" href="#常用函数">常用函数</a><a aria-hidden="true" class="leve3 tocs-link" data-num="3" href="#常用数论函数">常用数论函数</a><a aria-hidden="true" class="leve2 tocs-link" data-num="2" href="#使用示例">使用示例</a><a aria-hidden="true" class="leve3 tocs-link" data-num="3" href="#求gcd运算">求GCD运算</a><a aria-hidden="true" class="leve3 tocs-link" data-num="3" href="#rsa加密解密">RSA加密解密</a><a aria-hidden="true" class="leve2 tocs-link" data-num="2" href="#另见">另见</a></div></div><div class="h1wrap-body"><div class="wrap h2body-exist"><div class="wrap-header h2wrap"><h2 id="简介"><a aria-hidden="true" tabindex="-1" href="#简介"><span class="icon icon-link"></span></a>简介</h2><div class="wrap-body">
+</div></div><div class="h2wrap-body"><div class="wrap h3body-not-exist col-span-2"><div class="wrap-header h3wrap"><h3 id="涉及领域领域"><a aria-hidden="true" tabindex="-1" href="#涉及领域领域"><span class="icon icon-link"></span></a>涉及领域领域</h3><div class="wrap-body">
+<!--rehype:wrap-class=col-span-2-->
+<ul>
+<li>
+<p>任意长度整数运算和任意精度浮点运算；</p>
+</li>
+<li>
+<p>整数和有限域上的多项式算术，包括基本算术、多项式分解、不可约判定、最小多项式计算、迹线、范数等计算；</p>
+</li>
+<li>
+<p>格基归约，包括 非常健壮和快速的Schnorr-Euchner,实现、块 Korkin-Zolotarev 归约，以及块 Korkin-Zolotarev 的新 Schnorr-Horner 剪枝启发式；</p>
+</li>
+<li>
+<p>整数、有限域和任意精度浮点数的基本线性代数。</p>
+</li>
+</ul>
+</div></div></div><div class="wrap h3body-not-exist"><div class="wrap-header h3wrap"><h3 id="平台"><a aria-hidden="true" tabindex="-1" href="#平台"><span class="icon icon-link"></span></a>平台</h3><div class="wrap-body">
+<p>NTL同时具备Unix、Mac OS或Windows任意平台上使用，NTL可与GMP一起构建以增强性能，NTL可与gf2x库一起构建，以便在GF(2)上快速计算大型多项式。NTL具有优秀的二次开发接口可快速实现新的数论算法。近年来，众多隐私计算、安全多方计算的开源库采用了该数论库，</p>
+</div></div></div></div></div><div class="wrap h2body-exist"><div class="wrap-header h2wrap"><h2 id="ntl及其依赖库安装"><a aria-hidden="true" tabindex="-1" href="#ntl及其依赖库安装"><span class="icon icon-link"></span></a>NTL及其依赖库安装</h2><div class="wrap-body">
+</div></div><div class="h2wrap-body"><div class="wrap h3body-not-exist col-span-2"><div class="wrap-header h3wrap"><h3 id="gmp库安装"><a aria-hidden="true" tabindex="-1" href="#gmp库安装"><span class="icon icon-link"></span></a>GMP库安装</h3><div class="wrap-body">
+<!--rehype:wrap-class=col-span-2-->
+<p><code>GMP</code>是一个用于长整数运算的库。对于基本运算(例如整数乘法)，它比NTL的长整数快2-3倍。因此NTL库默认使用<code>GMP</code>库。所以安装NTL库之前首先安装<code>GMP</code>库。</p>
+<pre class="language-bash"><code class="language-bash code-highlight"><span class="code-line"><span class="token function">wget</span> https://gmplib.org/download/gmp/gmp-6.1.2.tar.bz2
+</span><span class="code-line"><span class="token function">tar</span> <span class="token parameter variable">-jxvf</span> gmp-6.1.2.tar.bz2 
+</span><span class="code-line"><span class="token function">mv</span> gmp-6.1.2 gmp
+</span><span class="code-line"><span class="token function">rm</span> gmp-6.1.2.tar.bz2
+</span><span class="code-line"><span class="token builtin class-name">cd</span> gmp
+</span><span class="code-line">./configure <span class="token parameter variable">--prefix</span><span class="token operator">=</span><span class="token environment constant">$PWD</span> 
+</span><span class="code-line"><span class="token function">make</span>
+</span><span class="code-line"><span class="token function">make</span> check
+</span><span class="code-line"><span class="token function">make</span> <span class="token function">install</span>
+</span><span class="code-line"><span class="token builtin class-name">cd</span> <span class="token punctuation">..</span>
+</span></code></pre>
+</div></div></div><div class="wrap h3body-not-exist"><div class="wrap-header h3wrap"><h3 id="gf2x库安装"><a aria-hidden="true" tabindex="-1" href="#gf2x库安装"><span class="icon icon-link"></span></a>GF2X库安装</h3><div class="wrap-body">
+<p><code>gf2x</code>是一个用于在GF(2)上进行多项式快速乘法的库.与仅实现 Karatsuba 乘法版本的 NTL 不同，<code>gf2x</code>还实现了其他算法，这些算法对于非常大的阶多项式来说更快</p>
+<pre class="language-bash"><code class="language-bash code-highlight"><span class="code-line"><span class="token function">wget</span> https://gitlab.inria.fr/gf2x/gf2x/uploads/46a3851a4aa6888e6a6a7ce3de33f0f4/gf2x-1.2.tar.gz
+</span><span class="code-line"><span class="token function">tar</span> <span class="token parameter variable">-zxvf</span> gf2x-1.2.tar.gz 
+</span><span class="code-line"><span class="token function">mv</span> gf2x-1.2 gf2x
+</span><span class="code-line"><span class="token function">rm</span> gf2x-1.2.tar.gz
+</span><span class="code-line"><span class="token builtin class-name">cd</span> gf2x
+</span><span class="code-line">./configure <span class="token parameter variable">--prefix</span><span class="token operator">=</span><span class="token environment constant">$PWD</span> <span class="token assign-left variable">ABI</span><span class="token operator">=</span><span class="token number">64</span> <span class="token assign-left variable">CFLAGS</span><span class="token operator">=</span><span class="token string">"-m64 -O2"</span>
+</span><span class="code-line"><span class="token function">make</span>
+</span><span class="code-line"><span class="token function">make</span> check
+</span><span class="code-line"><span class="token function">make</span> <span class="token function">install</span>
+</span><span class="code-line"><span class="token builtin class-name">cd</span> <span class="token punctuation">..</span>
+</span></code></pre>
+</div></div></div><div class="wrap h3body-not-exist col-span-3"><div class="wrap-header h3wrap"><h3 id="ntl库安装"><a aria-hidden="true" tabindex="-1" href="#ntl库安装"><span class="icon icon-link"></span></a>NTL库安装</h3><div class="wrap-body">
+<!--rehype:wrap-class=col-span-3-->
+<pre class="language-bash"><code class="language-bash code-highlight"><span class="code-line"><span class="token comment">#下载NTL库</span>
+</span><span class="code-line"><span class="token function">wget</span> http://www.shoup.net/ntl/ntl-10.4.0.tar.gz
+</span><span class="code-line"><span class="token comment">#解压</span>
+</span><span class="code-line"><span class="token function">tar</span> <span class="token parameter variable">-zxvf</span> ntl-10.4.0.tar.gz 
+</span><span class="code-line"><span class="token function">mv</span> ntl-10.4.0 ntl
+</span><span class="code-line"><span class="token function">rm</span> ntl-10.4.0.tar.gz
+</span><span class="code-line"><span class="token function">cp</span> ./ntl_patch/* ./ntl/include/NTL/
+</span><span class="code-line"><span class="token assign-left variable">linux</span><span class="token operator">=</span><span class="token variable"><span class="token variable">$(</span><span class="token builtin class-name">pwd</span><span class="token variable">)</span></span>
+</span><span class="code-line"><span class="token builtin class-name">cd</span> ntl/src
+</span><span class="code-line"><span class="token comment">#安装</span>
+</span><span class="code-line">./configure <span class="token assign-left variable">PREFIX</span><span class="token operator">=</span><span class="token variable">$linux</span>/gmp <span class="token assign-left variable">GMP_PREFIX</span><span class="token operator">=</span><span class="token variable">$linux</span>/gmp <span class="token assign-left variable">NTL_THREAD_BOOST</span><span class="token operator">=</span>on <span class="token assign-left variable">NTL_FFT_LAZYMUL</span><span class="token operator">=</span>on <span class="token assign-left variable">NTL_FFT_BIGTAB</span><span class="token operator">=</span>on <span class="token assign-left variable">NTL_GF2X_LIB</span><span class="token operator">=</span>on  <span class="token assign-left variable">GF2X_PREFIX</span><span class="token operator">=</span><span class="token variable">$linux</span>/gf2x
+</span><span class="code-line"><span class="token function">make</span> <span class="token parameter variable">-j20</span>
+</span><span class="code-line"><span class="token function">mv</span> ./ntl.a ./libntl.a
+</span></code></pre>
+</div></div></div></div></div><div class="wrap h2body-exist"><div class="wrap-header h2wrap"><h2 id="ntl的使用"><a aria-hidden="true" tabindex="-1" href="#ntl的使用"><span class="icon icon-link"></span></a>NTL的使用</h2><div class="wrap-body">
+</div></div><div class="h2wrap-body"><div class="wrap h3body-not-exist"><div class="wrap-header h3wrap"><h3 id="ntl库的基本变量"><a aria-hidden="true" tabindex="-1" href="#ntl库的基本变量"><span class="icon icon-link"></span></a>NTL库的基本变量</h3><div class="wrap-body">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>术语</th><th>说明</th></tr></thead><tbody><tr><td><code>ZZ</code></td><td>大整数（超出基本数据类型范围的整数）</td></tr><tr><td><code>ZZ_p</code></td><td>模 P 的大整数</td></tr><tr><td><code>zz_p</code></td><td>模单精度 P 的整数</td></tr><tr><td><code>GF2</code></td><td>模 2 的整数</td></tr><tr><td><code>ZZX</code></td><td>具有 ZZ 系数的单变量多项式</td></tr><tr><td><code>ZZ_pX</code></td><td>具有 ZZ_p 系数的单变量多项式</td></tr><tr><td><code>zz_pX</code></td><td>具有 zz_p 系数的单变量多项式</td></tr><tr><td><code>GF2X</code></td><td>具有 GF2 系数的多项式</td></tr><tr><td><code>ZZ_pE</code></td><td>ZZ_p 上的环/域扩张</td></tr><tr><td><code>zz_pE</code></td><td>zz_p 上的环/域扩张</td></tr><tr><td><code>GF2E</code></td><td>GF2 上的环/域扩张</td></tr><tr><td><code>ZZ_pEX</code></td><td>具有 ZZ_pE 系数的单变量多项式</td></tr><tr><td><code>zz_pEX</code></td><td>具有 zz_pE 系数的单变量多项式</td></tr><tr><td><code>GF2EX</code></td><td>具有 GF2E 系数的单变量多项式</td></tr></tbody></table>
+</div></div></div><div class="wrap h3body-not-exist"><div class="wrap-header h3wrap"><h3 id="常用函数"><a aria-hidden="true" tabindex="-1" href="#常用函数"><span class="icon icon-link"></span></a>常用函数</h3><div class="wrap-body">
+<pre class="language-cpp"><code class="language-cpp code-highlight"><span class="code-line"><span class="token function">SetSeed</span><span class="token punctuation">(</span><span class="token keyword">const</span> ZZ<span class="token operator">&#x26;</span> s<span class="token punctuation">)</span>：<span class="token comment">//设置PRF种子</span>
+</span><span class="code-line">
+</span><span class="code-line"><span class="token function">RandomBnd</span><span class="token punctuation">(</span>ZZ<span class="token operator">&#x26;</span> x<span class="token punctuation">,</span> <span class="token keyword">const</span> ZZ<span class="token operator">&#x26;</span> n<span class="token punctuation">)</span>：<span class="token comment">//随机生成x</span>
+</span><span class="code-line">
+</span><span class="code-line"><span class="token function">RandomBits</span><span class="token punctuation">(</span>ZZ<span class="token operator">&#x26;</span> x<span class="token punctuation">,</span> <span class="token keyword">long</span> l<span class="token punctuation">)</span>：<span class="token comment">//随机生成l比特的整数</span>
+</span><span class="code-line">    
+</span><span class="code-line">ZZ <span class="token function">p</span><span class="token punctuation">(</span><span class="token number">17</span><span class="token punctuation">)</span><span class="token comment">//初始化整数为17，这里参数类型是long</span>
+</span><span class="code-line">
+</span><span class="code-line">p <span class="token operator">=</span> <span class="token function">to_ZZ</span><span class="token punctuation">(</span><span class="token string">"123"</span><span class="token punctuation">)</span><span class="token comment">//读入字符串，可输入大整数</span>
+</span><span class="code-line">
+</span><span class="code-line"><span class="token function">GenPrime</span><span class="token punctuation">(</span>p<span class="token punctuation">,</span> <span class="token number">8</span><span class="token punctuation">)</span><span class="token comment">//随机生成8比特素数</span>
+</span><span class="code-line">    
+</span><span class="code-line"><span class="token class-name">ZZ_p</span><span class="token double-colon punctuation">::</span><span class="token function">init</span><span class="token punctuation">(</span>p<span class="token punctuation">)</span><span class="token comment">//初始化环Zp </span>
+</span><span class="code-line">
+</span><span class="code-line">ZZ_p <span class="token function">a</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token comment">//初始化为2 mod p，这里参数类型是long</span>
+</span><span class="code-line">
+</span></code></pre>
+</div></div></div><div class="wrap h3body-not-exist col-span-2"><div class="wrap-header h3wrap"><h3 id="常用数论函数"><a aria-hidden="true" tabindex="-1" href="#常用数论函数"><span class="icon icon-link"></span></a>常用数论函数</h3><div class="wrap-body">
+<!--rehype:wrap-class=col-span-2-->
+<pre class="language-cpp"><code class="language-cpp code-highlight"><span class="code-line"><span class="token comment">// 计算两个整数的最大公约数</span>
+</span><span class="code-line"><span class="token keyword">long</span> <span class="token function">GCD</span><span class="token punctuation">(</span><span class="token keyword">const</span> <span class="token keyword">long</span><span class="token operator">&#x26;</span> a<span class="token punctuation">,</span> <span class="token keyword">const</span> <span class="token keyword">long</span><span class="token operator">&#x26;</span> b<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</span><span class="code-line">
+</span><span class="code-line"><span class="token comment">// 扩展欧几里得算法，计算a和b的最大公约数，并返回x和y，使得ax + by = gcd(a, b)</span>
+</span><span class="code-line"><span class="token keyword">void</span> <span class="token function">XGCD</span><span class="token punctuation">(</span><span class="token keyword">long</span><span class="token operator">&#x26;</span> x<span class="token punctuation">,</span> <span class="token keyword">long</span><span class="token operator">&#x26;</span> y<span class="token punctuation">,</span> <span class="token keyword">const</span> <span class="token keyword">long</span><span class="token operator">&#x26;</span> a<span class="token punctuation">,</span> <span class="token keyword">const</span> <span class="token keyword">long</span><span class="token operator">&#x26;</span> b<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</span><span class="code-line">
+</span><span class="code-line"><span class="token comment">// 模加法</span>
+</span><span class="code-line"><span class="token keyword">long</span> <span class="token function">AddMod</span><span class="token punctuation">(</span><span class="token keyword">const</span> <span class="token keyword">long</span><span class="token operator">&#x26;</span> a<span class="token punctuation">,</span> <span class="token keyword">const</span> <span class="token keyword">long</span><span class="token operator">&#x26;</span> b<span class="token punctuation">,</span> <span class="token keyword">const</span> <span class="token keyword">long</span><span class="token operator">&#x26;</span> n<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</span><span class="code-line">
+</span><span class="code-line"><span class="token comment">// 模减法</span>
+</span><span class="code-line"><span class="token keyword">long</span> <span class="token function">SubMod</span><span class="token punctuation">(</span><span class="token keyword">const</span> <span class="token keyword">long</span><span class="token operator">&#x26;</span> a<span class="token punctuation">,</span> <span class="token keyword">const</span> <span class="token keyword">long</span><span class="token operator">&#x26;</span> b<span class="token punctuation">,</span> <span class="token keyword">const</span> <span class="token keyword">long</span><span class="token operator">&#x26;</span> n<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</span><span class="code-line">
+</span><span class="code-line"><span class="token comment">// 模取反</span>
+</span><span class="code-line"><span class="token keyword">long</span> <span class="token function">NegateMod</span><span class="token punctuation">(</span><span class="token keyword">const</span> <span class="token keyword">long</span><span class="token operator">&#x26;</span> a<span class="token punctuation">,</span> <span class="token keyword">const</span> <span class="token keyword">long</span><span class="token operator">&#x26;</span> n<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</span><span class="code-line">
+</span><span class="code-line"><span class="token comment">// 模乘法</span>
+</span><span class="code-line"><span class="token keyword">long</span> <span class="token function">MulMod</span><span class="token punctuation">(</span><span class="token keyword">const</span> <span class="token keyword">long</span><span class="token operator">&#x26;</span> a<span class="token punctuation">,</span> <span class="token keyword">const</span> <span class="token keyword">long</span><span class="token operator">&#x26;</span> b<span class="token punctuation">,</span> <span class="token keyword">const</span> <span class="token keyword">long</span><span class="token operator">&#x26;</span> n<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</span><span class="code-line">
+</span><span class="code-line"><span class="token comment">// 模平方</span>
+</span><span class="code-line"><span class="token keyword">long</span> <span class="token function">SqrMod</span><span class="token punctuation">(</span><span class="token keyword">const</span> <span class="token keyword">long</span><span class="token operator">&#x26;</span> a<span class="token punctuation">,</span> <span class="token keyword">const</span> <span class="token keyword">long</span><span class="token operator">&#x26;</span> n<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</span><span class="code-line">
+</span><span class="code-line"><span class="token comment">// 模逆</span>
+</span><span class="code-line"><span class="token keyword">long</span> <span class="token function">InvMod</span><span class="token punctuation">(</span><span class="token keyword">const</span> <span class="token keyword">long</span><span class="token operator">&#x26;</span> a<span class="token punctuation">,</span> <span class="token keyword">const</span> <span class="token keyword">long</span><span class="token operator">&#x26;</span> n<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</span><span class="code-line">
+</span><span class="code-line"><span class="token comment">// 模指数运算</span>
+</span><span class="code-line"><span class="token keyword">long</span> <span class="token function">PowerMod</span><span class="token punctuation">(</span><span class="token keyword">const</span> <span class="token keyword">long</span><span class="token operator">&#x26;</span> a<span class="token punctuation">,</span> <span class="token keyword">const</span> <span class="token keyword">long</span><span class="token operator">&#x26;</span> e<span class="token punctuation">,</span> <span class="token keyword">const</span> <span class="token keyword">long</span><span class="token operator">&#x26;</span> n<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</span><span class="code-line">
+</span><span class="code-line"><span class="token comment">// 计算整数的二进制表示的长度</span>
+</span><span class="code-line"><span class="token keyword">long</span> <span class="token function">NumBits</span><span class="token punctuation">(</span><span class="token keyword">const</span> <span class="token keyword">long</span><span class="token operator">&#x26;</span> a<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</span><span class="code-line">
+</span><span class="code-line"><span class="token comment">// 提取整数的指定比特位</span>
+</span><span class="code-line"><span class="token keyword">long</span> <span class="token function">bit</span><span class="token punctuation">(</span><span class="token keyword">const</span> <span class="token keyword">long</span><span class="token operator">&#x26;</span> a<span class="token punctuation">,</span> <span class="token keyword">long</span> k<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</span><span class="code-line">
+</span><span class="code-line"><span class="token comment">// 将octet字符串转换为整数</span>
+</span><span class="code-line"><span class="token keyword">void</span> <span class="token function">ZZFromBytes</span><span class="token punctuation">(</span><span class="token keyword">long</span><span class="token operator">&#x26;</span> x<span class="token punctuation">,</span> <span class="token keyword">const</span> <span class="token keyword">unsigned</span> <span class="token keyword">char</span> <span class="token operator">*</span>p<span class="token punctuation">,</span> <span class="token keyword">long</span> n<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</span><span class="code-line">
+</span><span class="code-line"><span class="token comment">// 将整数转换为octet字符串</span>
+</span><span class="code-line"><span class="token keyword">void</span> <span class="token function">BytesFromZZ</span><span class="token punctuation">(</span><span class="token keyword">unsigned</span> <span class="token keyword">char</span> <span class="token operator">*</span>p<span class="token punctuation">,</span> <span class="token keyword">const</span> <span class="token keyword">long</span><span class="token operator">&#x26;</span> x<span class="token punctuation">,</span> <span class="token keyword">long</span> n<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</span><span class="code-line">
+</span><span class="code-line"><span class="token comment">// 生成指定范围内的伪随机数</span>
+</span><span class="code-line"><span class="token keyword">long</span> <span class="token function">RandomBnd</span><span class="token punctuation">(</span><span class="token keyword">const</span> <span class="token keyword">long</span><span class="token operator">&#x26;</span> n<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</span><span class="code-line">
+</span><span class="code-line"><span class="token comment">// 生成指定位数的伪随机数</span>
+</span><span class="code-line"><span class="token keyword">long</span> <span class="token function">RandomBits</span><span class="token punctuation">(</span><span class="token keyword">long</span> l<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</span><span class="code-line">
+</span><span class="code-line"><span class="token comment">// 生成指定长度的伪随机数</span>
+</span><span class="code-line"><span class="token keyword">long</span> <span class="token function">RandomLen</span><span class="token punctuation">(</span><span class="token keyword">long</span> l<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</span><span class="code-line">
+</span><span class="code-line"><span class="token comment">// 生成素数</span>
+</span><span class="code-line"><span class="token keyword">void</span> <span class="token function">GenPrime</span><span class="token punctuation">(</span><span class="token keyword">long</span><span class="token operator">&#x26;</span> x<span class="token punctuation">,</span> <span class="token keyword">long</span> n<span class="token punctuation">,</span> <span class="token keyword">long</span> m <span class="token operator">=</span> <span class="token number">20</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</span><span class="code-line">
+</span><span class="code-line"><span class="token comment">// 测试整数是否为素数</span>
+</span><span class="code-line"><span class="token keyword">long</span> <span class="token function">ProbPrime</span><span class="token punctuation">(</span><span class="token keyword">const</span> <span class="token keyword">long</span><span class="token operator">&#x26;</span> a<span class="token punctuation">,</span> <span class="token keyword">long</span> n <span class="token operator">=</span> <span class="token number">10</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</span><span class="code-line">
+</span><span class="code-line"><span class="token comment">// 非模指数运算</span>
+</span><span class="code-line"><span class="token keyword">long</span> <span class="token function">power</span><span class="token punctuation">(</span><span class="token keyword">const</span> <span class="token keyword">long</span><span class="token operator">&#x26;</span> a<span class="token punctuation">,</span> <span class="token keyword">const</span> <span class="token keyword">long</span><span class="token operator">&#x26;</span> e<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</span><span class="code-line">
+</span><span class="code-line"><span class="token comment">// 计算整数的平方根的整数部分</span>
+</span><span class="code-line"><span class="token keyword">long</span> <span class="token function">SqrRoot</span><span class="token punctuation">(</span><span class="token keyword">const</span> <span class="token keyword">long</span><span class="token operator">&#x26;</span> a<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</span><span class="code-line">
+</span><span class="code-line"><span class="token comment">// 计算雅可比符号</span>
+</span><span class="code-line"><span class="token keyword">long</span> <span class="token function">Jacobi</span><span class="token punctuation">(</span><span class="token keyword">const</span> <span class="token keyword">long</span><span class="token operator">&#x26;</span> a<span class="token punctuation">,</span> <span class="token keyword">const</span> <span class="token keyword">long</span><span class="token operator">&#x26;</span> n<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</span><span class="code-line">
+</span><span class="code-line"><span class="token comment">// 计算模平方根</span>
+</span><span class="code-line"><span class="token keyword">long</span> <span class="token function">SqrRootMod</span><span class="token punctuation">(</span><span class="token keyword">const</span> <span class="token keyword">long</span><span class="token operator">&#x26;</span> a<span class="token punctuation">,</span> <span class="token keyword">const</span> <span class="token keyword">long</span><span class="token operator">&#x26;</span> p<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</span><span class="code-line">
+</span></code></pre>
+</div></div></div></div></div><div class="wrap h2body-exist"><div class="wrap-header h2wrap"><h2 id="使用示例"><a aria-hidden="true" tabindex="-1" href="#使用示例"><span class="icon icon-link"></span></a>使用示例</h2><div class="wrap-body">
+</div></div><div class="h2wrap-body"><div class="wrap h3body-not-exist col-span-3"><div class="wrap-header h3wrap"><h3 id="求gcd运算"><a aria-hidden="true" tabindex="-1" href="#求gcd运算"><span class="icon icon-link"></span></a>求GCD运算</h3><div class="wrap-body">
+<!--rehype:wrap-class=col-span-3-->
+<pre class="language-cpp"><code class="language-cpp code-highlight"><span class="code-line"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&#x3C;NTL/ZZ.h></span></span>
+</span><span class="code-line"><span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+</span><span class="code-line"><span class="token punctuation">{</span>
+</span><span class="code-line">　　　ZZ a<span class="token punctuation">,</span> b<span class="token punctuation">,</span> c<span class="token punctuation">;</span>
+</span><span class="code-line">　　　a <span class="token operator">=</span> <span class="token number">12</span><span class="token punctuation">;</span>
+</span><span class="code-line">　　　b <span class="token operator">=</span> <span class="token number">20</span><span class="token punctuation">;</span>
+</span><span class="code-line">　　　<span class="token function">GCD</span><span class="token punctuation">(</span>c<span class="token punctuation">,</span> a<span class="token punctuation">,</span> b<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</span><span class="code-line">　　　cout <span class="token operator">&#x3C;&#x3C;</span> <span class="token string">"a="</span> <span class="token operator">&#x3C;&#x3C;</span> a <span class="token operator">&#x3C;&#x3C;</span> <span class="token string">", b="</span> <span class="token operator">&#x3C;&#x3C;</span> b <span class="token operator">&#x3C;&#x3C;</span> <span class="token string">", c="</span> <span class="token operator">&#x3C;&#x3C;</span> c <span class="token operator">&#x3C;&#x3C;</span> <span class="token string">"\n"</span><span class="token punctuation">;</span>
+</span><span class="code-line"><span class="token punctuation">}</span>
+</span></code></pre>
+</div></div></div><div class="wrap h3body-not-exist col-span-3"><div class="wrap-header h3wrap"><h3 id="rsa加密解密"><a aria-hidden="true" tabindex="-1" href="#rsa加密解密"><span class="icon icon-link"></span></a>RSA加密解密</h3><div class="wrap-body">
+<!--rehype:wrap-class=col-span-3-->
+<pre class="language-cpp"><code class="language-cpp code-highlight"><span class="code-line"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&#x3C;NTL/ZZ.h></span></span>
+</span><span class="code-line">　　#include <span class="token operator">&#x3C;</span>fstream<span class="token punctuation">.</span>h<span class="token operator">></span>
+</span><span class="code-line">　　#include <span class="token operator">&#x3C;</span>time<span class="token punctuation">.</span>h<span class="token operator">></span>
+</span><span class="code-line">　　<span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+</span><span class="code-line">　　<span class="token punctuation">{</span>
+</span><span class="code-line">　　　　ZZ a<span class="token punctuation">,</span> b<span class="token punctuation">,</span> c<span class="token punctuation">,</span> d<span class="token punctuation">;</span>
+</span><span class="code-line">　　　　clock_t tBegin<span class="token punctuation">,</span> tEnd<span class="token punctuation">;</span>
+</span><span class="code-line">　　　　<span class="token keyword">int</span> i<span class="token punctuation">;</span>
+</span><span class="code-line">　　　　ifstream <span class="token function">fin</span><span class="token punctuation">(</span><span class="token string">"input.txt"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</span><span class="code-line">　　　　fin <span class="token operator">>></span> a<span class="token punctuation">;</span>
+</span><span class="code-line">　　　　fin <span class="token operator">>></span> b<span class="token punctuation">;</span>
+</span><span class="code-line">　　　　fin <span class="token operator">>></span> c<span class="token punctuation">;</span>
+</span><span class="code-line">　　　　tBegin <span class="token operator">=</span> <span class="token function">clock</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</span><span class="code-line">　　　　<span class="token keyword">for</span> <span class="token punctuation">(</span>i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&#x3C;</span> <span class="token number">100</span><span class="token punctuation">;</span> i <span class="token operator">++</span><span class="token punctuation">)</span>
+</span><span class="code-line">　　　　　　d <span class="token operator">=</span> <span class="token function">PowerMod</span><span class="token punctuation">(</span>a<span class="token punctuation">,</span> b<span class="token punctuation">,</span> c<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</span><span class="code-line">　　　　tEnd <span class="token operator">=</span> <span class="token function">clock</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</span><span class="code-line">　　　　cout <span class="token operator">&#x3C;&#x3C;</span> d <span class="token operator">&#x3C;&#x3C;</span> <span class="token string">"\n\n"</span><span class="token punctuation">;</span>
+</span><span class="code-line">　　　　cout <span class="token operator">&#x3C;&#x3C;</span> <span class="token string">"\n\n进行100次1024比特的模指数运算所消耗的时间为:"</span> <span class="token operator">&#x3C;&#x3C;</span> tEnd <span class="token operator">-</span> tBegin <span class="token operator">&#x3C;&#x3C;</span> <span class="token string">"ms\n"</span><span class="token punctuation">;</span>
+</span><span class="code-line">　　　　cin <span class="token operator">>></span> i<span class="token punctuation">;</span>    <span class="token comment">//用于暂停，观测数据</span>
+</span><span class="code-line">　　<span class="token punctuation">}</span>
+</span></code></pre>
+</div></div></div></div></div><div class="wrap h2body-not-exist"><div class="wrap-header h2wrap"><h2 id="另见"><a aria-hidden="true" tabindex="-1" href="#另见"><span class="icon icon-link"></span></a>另见</h2><div class="wrap-body">
+<ul>
+<li><a href="https://libntl.org/doc/tour-ex1.html">A Tour of NTL: Examples: Big Integers</a></li>
+</ul>
+</div></div><div class="h2wrap-body"></div></div></div><script src="https://giscus.app/client.js" data-repo="jaywcjlove/reference" data-repo-id="R_kgDOID2-Mw" data-category="Q&#x26;A" data-category-id="DIC_kwDOID2-M84CS5wo" data-mapping="pathname" data-strict="0" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="bottom" data-theme="dark" data-lang="zh-CN" crossorigin="anonymous" async></script><div class="giscus"></div></div><footer class="footer-wrap"><footer class="max-container">Copyright (c) <b>2024</b> xin-li™</footer></footer><script src="..\/data.js?v=1.5.3" defer></script><script src="..\/js/fuse.min.js?v=1.5.3" defer></script><script src="..\/js/main.js?v=1.5.3" defer></script><div id="mysearch"><div class="mysearch-box"><div class="mysearch-input"><div><svg xmlns="http://www.w3.org/2000/svg" height="1em" width="1em" viewBox="0 0 18 18">
+  <path fill="currentColor" d="M17.71,16.29 L14.31,12.9 C15.4069846,11.5024547 16.0022094,9.77665502 16,8 C16,3.581722 12.418278,0 8,0 C3.581722,0 0,3.581722 0,8 C0,12.418278 3.581722,16 8,16 C9.77665502,16.0022094 11.5024547,15.4069846 12.9,14.31 L16.29,17.71 C16.4777666,17.8993127 16.7333625,18.0057983 17,18.0057983 C17.2666375,18.0057983 17.5222334,17.8993127 17.71,17.71 C17.8993127,17.5222334 18.0057983,17.2666375 18.0057983,17 C18.0057983,16.7333625 17.8993127,16.4777666 17.71,16.29 Z M2,8 C2,4.6862915 4.6862915,2 8,2 C11.3137085,2 14,4.6862915 14,8 C14,11.3137085 11.3137085,14 8,14 C4.6862915,14 2,11.3137085 2,8 Z"></path>
+</svg><input id="mysearch-input" type="search" placeholder="搜索" autocomplete="off"><div class="mysearch-clear"></div></div><button id="mysearch-close" type="button">搜索</button></div><div class="mysearch-result"><div id="mysearch-menu"></div><div id="mysearch-content"></div></div></div></div></body>
+</html>

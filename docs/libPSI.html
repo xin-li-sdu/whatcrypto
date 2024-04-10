@@ -1,0 +1,273 @@
+<!doctype html>
+<html lang="en" data-color-mode="dark">
+<head>
+<meta charset="utf-8">
+<title> libPSI
+ &#x26;  libPSI cheatsheet &#x26;  Quick Reference</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta description="A library for performing private set intersection，为开发人员分享快速参考备忘单。">
+<meta keywords="libPSI,reference,Quick,Reference,cheatsheet,cheat,sheet">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20height%3D%221em%22%20width%3D%221em%22%3E%20%3Cpath%20d%3D%22m21.66%2010.44-.98%204.18c-.84%203.61-2.5%205.07-5.62%204.77-.5-.04-1.04-.13-1.62-.27l-1.68-.4c-4.17-.99-5.46-3.05-4.48-7.23l.98-4.19c.2-.85.44-1.59.74-2.2%201.17-2.42%203.16-3.07%206.5-2.28l1.67.39c4.19.98%205.47%203.05%204.49%207.23Z%22%20fill%3D%22%23c9d1d9%22%2F%3E%20%3Cpath%20d%3D%22M15.06%2019.39c-.62.42-1.4.77-2.35%201.08l-1.58.52c-3.97%201.28-6.06.21-7.35-3.76L2.5%2013.28c-1.28-3.97-.22-6.07%203.75-7.35l1.58-.52c.41-.13.8-.24%201.17-.31-.3.61-.54%201.35-.74%202.2l-.98%204.19c-.98%204.18.31%206.24%204.48%207.23l1.68.4c.58.14%201.12.23%201.62.27Zm2.43-8.88c-.06%200-.12-.01-.19-.02l-4.85-1.23a.75.75%200%200%201%20.37-1.45l4.85%201.23a.748.748%200%200%201-.18%201.47Z%22%20fill%3D%22%23228e6c%22%20%2F%3E%20%3Cpath%20d%3D%22M14.56%2013.89c-.06%200-.12-.01-.19-.02l-2.91-.74a.75.75%200%200%201%20.37-1.45l2.91.74c.4.1.64.51.54.91-.08.34-.38.56-.72.56Z%22%20fill%3D%22%23228e6c%22%20%2F%3E%20%3C%2Fsvg%3E" type="image/svg+xml">
+<link rel="stylesheet" href="..\style\style.css">
+<link rel="stylesheet" href="..\style\katex.css">
+</head>
+<body><nav class="header-nav"><div class="max-container"><a href="..\index.html" class="logo"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" height="1em" width="1em">
+  <path d="m21.66 10.44-.98 4.18c-.84 3.61-2.5 5.07-5.62 4.77-.5-.04-1.04-.13-1.62-.27l-1.68-.4c-4.17-.99-5.46-3.05-4.48-7.23l.98-4.19c.2-.85.44-1.59.74-2.2 1.17-2.42 3.16-3.07 6.5-2.28l1.67.39c4.19.98 5.47 3.05 4.49 7.23Z" fill="#c9d1d9"></path>
+  <path d="M15.06 19.39c-.62.42-1.4.77-2.35 1.08l-1.58.52c-3.97 1.28-6.06.21-7.35-3.76L2.5 13.28c-1.28-3.97-.22-6.07 3.75-7.35l1.58-.52c.41-.13.8-.24 1.17-.31-.3.61-.54 1.35-.74 2.2l-.98 4.19c-.98 4.18.31 6.24 4.48 7.23l1.68.4c.58.14 1.12.23 1.62.27Zm2.43-8.88c-.06 0-.12-.01-.19-.02l-4.85-1.23a.75.75 0 0 1 .37-1.45l4.85 1.23a.748.748 0 0 1-.18 1.47Z" fill="#228e6c"></path>
+  <path d="M14.56 13.89c-.06 0-.12-.01-.19-.02l-2.91-.74a.75.75 0 0 1 .37-1.45l2.91.74c.4.1.64.51.54.91-.08.34-.38.56-.72.56Z" fill="#228e6c"></path>
+</svg>
+<span class="title">Quick Reference</span></a><div class="menu"><a href="javascript:void(0);" class="searchbtn" id="searchbtn"><svg xmlns="http://www.w3.org/2000/svg" height="1em" width="1em" viewBox="0 0 18 18">
+  <path fill="currentColor" d="M17.71,16.29 L14.31,12.9 C15.4069846,11.5024547 16.0022094,9.77665502 16,8 C16,3.581722 12.418278,0 8,0 C3.581722,0 0,3.581722 0,8 C0,12.418278 3.581722,16 8,16 C9.77665502,16.0022094 11.5024547,15.4069846 12.9,14.31 L16.29,17.71 C16.4777666,17.8993127 16.7333625,18.0057983 17,18.0057983 C17.2666375,18.0057983 17.5222334,17.8993127 17.71,17.71 C17.8993127,17.5222334 18.0057983,17.2666375 18.0057983,17 C18.0057983,16.7333625 17.8993127,16.4777666 17.71,16.29 Z M2,8 C2,4.6862915 4.6862915,2 8,2 C11.3137085,2 14,4.6862915 14,8 C14,11.3137085 11.3137085,14 8,14 C4.6862915,14 2,11.3137085 2,8 Z"></path>
+</svg><span>搜索</span><span>⌘K</span></a><a href="https://github.com/xin-li-sdu/xin-li-sdu/blob/main/docs/libPSI.md" class="" target="__blank"><svg viewBox="0 0 36 36" fill="currentColor" height="1em" width="1em"><path d="m33 6.4-3.7-3.7a1.71 1.71 0 0 0-2.36 0L23.65 6H6a2 2 0 0 0-2 2v22a2 2 0 0 0 2 2h22a2 2 0 0 0 2-2V11.76l3-3a1.67 1.67 0 0 0 0-2.36ZM18.83 20.13l-4.19.93 1-4.15 9.55-9.57 3.23 3.23ZM29.5 9.43 26.27 6.2l1.85-1.85 3.23 3.23Z"></path><path fill="none" d="M0 0h36v36H0z"></path></svg><span>编辑</span></a><button id="darkMode" type="button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="light" height="1em" width="1em">
+  <path d="M6.995 12c0 2.761 2.246 5.007 5.007 5.007s5.007-2.246 5.007-5.007-2.246-5.007-5.007-5.007S6.995 9.239 6.995 12zM11 19h2v3h-2zm0-17h2v3h-2zm-9 9h3v2H2zm17 0h3v2h-3zM5.637 19.778l-1.414-1.414 2.121-2.121 1.414 1.414zM16.242 6.344l2.122-2.122 1.414 1.414-2.122 2.122zM6.344 7.759 4.223 5.637l1.415-1.414 2.12 2.122zm13.434 10.605-1.414 1.414-2.122-2.122 1.414-1.414z"></path>
+</svg>
+<svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" class="dark" height="1em" width="1em">
+  <path d="M12 11.807A9.002 9.002 0 0 1 10.049 2a9.942 9.942 0 0 0-5.12 2.735c-3.905 3.905-3.905 10.237 0 14.142 3.906 3.906 10.237 3.905 14.143 0a9.946 9.946 0 0 0 2.735-5.119A9.003 9.003 0 0 1 12 11.807z"></path>
+</svg>
+</button><script src="../js/dark.js?v=1.5.3"></script><a href="https://github.com/xin-li-sdu/xin-li-sdu" class="" target="__blank"><svg viewBox="0 0 16 16" fill="currentColor" height="1em" width="1em"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"></path></svg></a></div></div></nav><div class="wrap h1body-exist max-container"><header class="wrap-header h1wrap"><h1 id="libpsi"><!--?xml version="1.0" encoding="utf-8"?-->
+
+<svg version="1.0" xmlns="http://www.w3.org/2000/svg" width="50pt" height="50pt" viewBox="0 0 50 50" style="" preserveAspectRatio="xMidYMid meet">
+<g fill="#C34600FF" stroke="#C34600FF">
+<path d="M 1.000 25.000 L 1.000 49.000 25.000 49.000 L 49.000 49.000 49.000 25.000 L 49.000 1.000 25.000 1.000 L 1.000 1.000 1.000 25.000 M 16.488 7.219 C 16.608 7.374 17.184 8.390 17.770 9.478 C 18.785 11.364 18.893 11.329 20.078 8.728 C 20.762 7.228 21.699 5.950 22.161 5.889 C 27.410 5.194 31.000 7.367 31.000 11.241 C 31.000 14.783 27.314 15.232 26.820 11.750 C 26.644 10.513 25.825 9.500 25.000 9.500 C 22.578 9.500 22.694 13.563 25.195 16.309 C 31.007 22.691 31.460 23.732 30.545 28.612 C 30.113 30.913 29.261 31.969 27.474 32.417 C 23.803 33.339 20.277 32.118 19.527 29.665 C 19.022 28.013 18.725 27.851 18.272 28.982 C 16.571 33.230 11.194 34.418 8.406 31.161 C 6.070 28.433 6.146 8.097 8.499 6.377 C 9.893 5.358 15.509 5.950 16.488 7.219 M 36.500 17.751 C 36.500 25.925 36.833 29.002 37.717 29.001 C 38.585 29.000 39.016 25.769 39.217 17.762 C 39.459 8.142 39.743 6.477 41.190 6.200 C 42.689 5.913 42.916 7.255 43.190 18.059 C 43.475 29.248 43.339 30.355 41.527 31.621 C 40.443 32.380 38.498 33.000 37.206 33.000 C 32.666 33.000 32.000 31.082 32.000 18.002 C 32.000 5.983 32.023 5.864 34.250 6.180 C 36.431 6.490 36.500 6.845 36.500 17.751 M 23.000 38.964 C 23.000 38.369 23.451 38.161 24.003 38.502 C 24.626 38.887 24.663 39.761 24.101 40.811 C 23.604 41.740 23.182 42.725 23.163 43.000 C 23.018 45.133 21.601 46.784 20.333 46.298 C 19.288 45.897 19.179 45.507 19.974 45.016 C 20.667 44.588 20.851 43.255 20.443 41.628 C 19.904 39.483 19.493 39.176 18.385 40.096 C 17.623 40.728 17.000 42.090 17.000 43.122 C 17.000 44.155 16.550 45.000 16.000 45.000 C 15.450 45.000 15.000 43.458 15.000 41.573 C 15.000 37.603 17.173 36.510 20.750 38.681 C 22.189 39.554 23.000 39.656 23.000 38.964 M 30.826 40.354 C 31.040 42.223 30.473 43.842 29.183 45.044 C 26.658 47.396 26.000 46.657 26.000 41.470 C 26.000 37.751 26.256 37.286 28.250 37.387 C 29.948 37.472 30.580 38.201 30.826 40.354 M 13.500 36.992 C 13.500 37.797 12.935 38.539 12.245 38.640 C 11.555 38.742 11.244 38.414 11.554 37.912 C 11.864 37.410 11.627 37.000 11.028 37.000 C 9.529 37.000 8.646 39.636 9.447 41.722 C 10.013 43.199 10.242 43.234 11.054 41.972 C 11.885 40.679 12.117 40.683 12.964 42.000 C 13.749 43.222 13.332 43.500 10.714 43.500 C 7.641 43.500 7.515 43.347 7.850 40.000 C 8.043 38.075 8.718 36.163 9.350 35.751 C 11.089 34.619 13.500 35.339 13.500 36.992 M 41.813 40.827 C 42.089 43.619 41.830 44.000 39.657 44.000 C 37.169 44.000 37.027 43.226 38.589 38.167 C 39.325 35.783 41.492 37.571 41.813 40.827 M 35.409 39.934 C 35.542 42.530 35.186 44.000 34.425 44.000 C 32.810 44.000 31.950 38.963 33.174 36.675 C 34.518 34.163 35.162 35.103 35.409 39.934 M 30.000 41.559 C 30.000 42.352 29.325 43.000 28.500 43.000 C 26.994 43.000 26.444 40.889 27.639 39.694 C 28.573 38.761 30.000 39.888 30.000 41.559 "></path></g>
+<g fill="#FFFFFFFF" stroke="#FFFFFFFF">
+<path d="M 8.571 7.571 C 7.345 8.798 7.000 11.419 7.000 19.515 C 7.000 29.099 7.169 30.005 9.223 31.443 C 12.160 33.501 13.593 33.407 16.000 31.000 C 17.729 29.271 18.000 27.667 18.000 19.155 C 18.000 10.887 17.707 9.045 16.171 7.655 C 13.867 5.569 10.609 5.533 8.571 7.571 M 14.000 18.833 C 14.000 29.103 13.572 30.719 11.342 28.869 C 10.429 28.111 10.000 25.261 10.000 19.959 C 10.000 11.298 10.547 9.000 12.607 9.000 C 13.703 9.000 14.000 11.095 14.000 18.833 "></path></g>
+<g fill="#FFFFFFFF" stroke="#FFFFFFFF">
+<path d="M 32.000 18.000 C 32.000 27.667 32.242 29.242 34.000 31.000 C 36.407 33.407 37.840 33.501 40.777 31.443 C 42.854 29.989 43.000 29.135 43.000 18.443 C 43.000 8.938 42.746 7.000 41.500 7.000 C 40.263 7.000 40.000 8.820 40.000 17.378 C 40.000 24.839 39.623 28.068 38.658 28.869 C 37.920 29.481 37.020 29.687 36.658 29.325 C 36.296 28.963 36.000 23.792 36.000 17.833 C 36.000 7.667 35.877 7.000 34.000 7.000 C 32.121 7.000 32.000 7.667 32.000 18.000 "></path></g>
+<g fill="#FFFFFFFF" stroke="#FFFFFFFF">
+<path d="M 21.750 7.080 C 18.631 8.897 19.478 15.002 23.579 20.265 C 25.880 23.219 27.040 25.687 26.829 27.179 C 26.407 30.154 23.601 30.209 23.180 27.250 C 22.753 24.237 20.000 24.319 20.000 27.345 C 20.000 32.972 27.999 34.764 29.970 29.579 C 31.240 26.239 30.236 23.150 26.287 18.247 C 24.142 15.585 22.981 13.154 23.181 11.747 C 23.595 8.828 26.405 8.830 26.820 11.750 C 27.032 13.243 27.825 14.000 29.178 14.000 C 30.902 14.000 31.110 13.576 30.528 11.256 C 29.249 6.159 25.991 4.610 21.750 7.080 "></path></g>
+<g fill="#C34600FF" stroke="#C34600FF">
+<path d="M 11.000 19.000 C 11.000 27.222 11.267 29.000 12.500 29.000 C 13.715 29.000 14.000 27.398 14.000 20.582 C 14.000 11.953 13.463 9.000 11.893 9.000 C 11.402 9.000 11.000 13.500 11.000 19.000 "></path></g>
+<g fill="#C34600FF" stroke="#C34600FF">
+<path d="M 19.000 20.226 C 19.000 24.320 19.215 24.757 21.000 24.290 C 22.521 23.892 23.000 24.259 23.000 25.824 C 23.000 28.348 24.788 29.612 26.267 28.133 C 27.588 26.812 26.000 23.481 21.819 18.797 L 19.000 15.640 19.000 20.226 "></path></g>
+<g fill="#FFFFFFFF" stroke="#FFFFFFFF">
+<path d="M 26.015 42.180 C 26.024 44.556 26.361 46.017 26.765 45.427 C 27.169 44.837 28.319 44.051 29.320 43.682 C 31.948 42.711 31.147 38.592 28.250 38.180 C 26.213 37.891 26.001 38.269 26.015 42.180 "></path></g>
+<g fill="#EFCEBBFF" stroke="#EFCEBBFF">
+<path d="M 39.430 7.321 C 39.151 8.048 39.071 13.110 39.252 18.571 L 39.581 28.500 39.791 17.823 C 39.971 8.601 40.238 7.084 41.750 6.689 C 43.390 6.261 43.388 6.225 41.719 6.116 C 40.739 6.052 39.709 6.595 39.430 7.321 "></path></g>
+<g fill="#FFFFFFFF" stroke="#FFFFFFFF">
+<path d="M 38.688 38.646 C 38.309 39.024 38.000 40.383 38.000 41.667 C 38.000 43.358 38.568 44.000 40.066 44.000 C 41.719 44.000 42.069 43.464 41.816 41.327 C 41.500 38.653 39.981 37.352 38.688 38.646 M 41.000 41.000 C 41.000 42.100 40.550 43.000 40.000 43.000 C 39.450 43.000 39.000 42.100 39.000 41.000 C 39.000 39.900 39.450 39.000 40.000 39.000 C 40.550 39.000 41.000 39.900 41.000 41.000 "></path></g>
+<g fill="#CD682FFF" stroke="#CD682FFF">
+<path d="M 18.257 19.500 C 18.314 28.417 18.320 28.438 18.907 21.789 C 19.233 18.098 19.207 14.048 18.850 12.789 C 18.492 11.530 18.225 14.550 18.257 19.500 "></path></g>
+<g fill="#FFFFFFFF" stroke="#FFFFFFFF">
+<path d="M 8.190 39.750 C 8.439 42.762 8.943 43.563 10.750 43.820 C 11.988 43.995 13.000 43.700 13.000 43.163 C 13.000 42.626 12.100 42.423 11.000 42.710 C 9.305 43.154 9.000 42.741 9.000 40.000 C 9.000 37.259 9.305 36.846 11.000 37.290 C 12.100 37.577 13.000 37.405 13.000 36.906 C 13.000 36.408 11.848 36.000 10.440 36.000 C 8.092 36.000 7.905 36.312 8.190 39.750 "></path></g>
+<g fill="#FFFFFFFF" stroke="#FFFFFFFF">
+<path d="M 20.030 38.185 C 20.014 38.562 20.467 40.099 21.039 41.602 C 21.822 43.661 21.760 44.535 20.789 45.152 C 19.875 45.731 19.847 45.974 20.691 45.985 C 22.228 46.004 22.632 45.255 23.380 41.000 C 23.778 38.735 23.701 38.190 23.162 39.456 C 22.336 41.397 22.321 41.397 21.195 39.456 C 20.571 38.380 20.047 37.808 20.030 38.185 "></path></g>
+<g fill="#FFFFFFFF" stroke="#FFFFFFFF">
+<path d="M 32.765 37.276 C 32.072 39.251 33.484 43.509 34.795 43.400 C 35.458 43.345 35.550 43.233 35.000 43.150 C 33.649 42.947 33.717 39.000 35.071 39.000 C 35.661 39.000 35.479 38.337 34.669 37.526 C 33.571 36.428 33.085 36.364 32.765 37.276 "></path></g>
+<g fill="#FFFFFFFF" stroke="#FFFFFFFF">
+<path d="M 16.086 41.191 L 16.172 44.500 16.998 41.755 C 17.470 40.186 17.433 38.768 16.912 38.446 C 16.411 38.136 16.039 39.371 16.086 41.191 "></path></g>
+<g fill="#EFCEBBFF" stroke="#EFCEBBFF">
+<path d="M 19.374 25.467 C 19.065 26.274 19.043 27.511 19.327 28.217 C 19.610 28.923 19.878 28.520 19.921 27.323 C 19.964 26.126 20.788 24.941 21.750 24.689 C 23.390 24.261 23.388 24.225 21.719 24.116 C 20.739 24.052 19.684 24.660 19.374 25.467 "></path></g>
+<g fill="#EFCEBBFF" stroke="#EFCEBBFF">
+<path d="M 33.951 41.500 C 33.734 43.550 33.879 43.956 34.411 42.783 C 34.839 41.839 34.982 40.489 34.728 39.783 C 34.475 39.077 34.125 39.850 33.951 41.500 "></path></g>
+<g fill="#CD682FFF" stroke="#CD682FFF">
+<path d="M 39.000 41.559 C 39.000 42.416 39.450 42.840 40.000 42.500 C 40.550 42.160 41.000 41.459 41.000 40.941 C 41.000 40.423 40.550 40.000 40.000 40.000 C 39.450 40.000 39.000 40.702 39.000 41.559 "></path></g>
+<g fill="#EFCEBBFF" stroke="#EFCEBBFF">
+<path d="M 29.063 41.191 C 29.029 42.121 29.444 43.156 29.987 43.492 C 30.626 43.887 30.648 43.292 30.050 41.801 C 29.395 40.167 29.108 39.991 29.063 41.191 "></path></g>
+<g fill="#EFCEBBFF" stroke="#EFCEBBFF">
+<path d="M 20.575 39.759 C 20.167 40.166 20.208 40.536 20.667 40.579 C 21.125 40.622 22.096 40.847 22.824 41.079 C 23.821 41.396 23.798 41.193 22.732 40.259 C 21.953 39.576 20.982 39.351 20.575 39.759 "></path></g>
+<g fill="#EFCEBBFF" stroke="#EFCEBBFF">
+<path d="M 23.877 29.277 C 24.399 29.799 25.397 29.873 26.096 29.441 C 26.965 28.904 26.666 28.604 25.147 28.492 C 23.749 28.389 23.280 28.680 23.877 29.277 "></path></g>
+</svg>
+<a aria-hidden="true" tabindex="-1" href="#libpsi"><span class="icon icon-link"></span></a>libPSI</h1><div class="wrap-body">
+<p>A library for performing private set intersection</p>
+</div></header><div class="menu-tocs"><div class="menu-btn"><svg aria-hidden="true" fill="currentColor" height="1em" width="1em" viewBox="0 0 16 16" version="1.1" data-view-component="true">
+  <path fill-rule="evenodd" d="M2 4a1 1 0 100-2 1 1 0 000 2zm3.75-1.5a.75.75 0 000 1.5h8.5a.75.75 0 000-1.5h-8.5zm0 5a.75.75 0 000 1.5h8.5a.75.75 0 000-1.5h-8.5zm0 5a.75.75 0 000 1.5h8.5a.75.75 0 000-1.5h-8.5zM3 8a1 1 0 11-2 0 1 1 0 012 0zm-1 6a1 1 0 100-2 1 1 0 000 2z"></path>
+</svg></div><div class="menu-modal"><a aria-hidden="true" class="leve2 tocs-link" data-num="2" href="#install">Install</a><a aria-hidden="true" class="leve3 tocs-link" data-num="3" href="#在linux或windows上安装">在Linux或Windows上安装</a><a aria-hidden="true" class="leve3 tocs-link" data-num="3" href="#测试">测试</a><a aria-hidden="true" class="leve2 tocs-link" data-num="2" href="#库内容">库内容</a><a aria-hidden="true" class="leve3 tocs-link" data-num="3" href="#支持的psi协议">支持的psi协议</a><a aria-hidden="true" class="leve3 tocs-link" data-num="3" href="#基于文件的命令行参数">基于文件的命令行参数</a><a aria-hidden="true" class="leve3 tocs-link" data-num="3" href="#基准命令行参数">基准命令行参数</a><a aria-hidden="true" class="leve2 tocs-link" data-num="2" href="#运行实例">运行实例</a><a aria-hidden="true" class="leve3 tocs-link" data-num="3" href="#命令行输入">命令行输入</a><a aria-hidden="true" class="leve3 tocs-link" data-num="3" href="#读取csv文件的逻辑">读取csv文件的逻辑</a><a aria-hidden="true" class="leve2 tocs-link" data-num="2" href="#另见">另见</a></div></div><div class="h1wrap-body"><div class="wrap h2body-exist"><div class="wrap-header h2wrap"><h2 id="install"><a aria-hidden="true" tabindex="-1" href="#install"><span class="icon icon-link"></span></a>Install</h2><div class="wrap-body">
+</div></div><div class="h2wrap-body"><div class="wrap h3body-not-exist col-span-2"><div class="wrap-header h3wrap"><h3 id="在linux或windows上安装"><a aria-hidden="true" tabindex="-1" href="#在linux或windows上安装"><span class="icon icon-link"></span></a>在Linux或Windows上安装</h3><div class="wrap-body">
+<!--rehype:wrap-class=col-span-2-->
+<pre class="language-bash"><code class="language-bash code-highlight"><span class="code-line"><span class="token function">git</span> clone https://github.com/osu-crypto/libPSI.git
+</span><span class="code-line"><span class="token builtin class-name">cd</span> libPSI
+</span><span class="code-line">python build.py
+</span></code></pre>
+</div></div></div><div class="wrap h3body-not-exist"><div class="wrap-header h3wrap"><h3 id="测试"><a aria-hidden="true" tabindex="-1" href="#测试"><span class="icon icon-link"></span></a>测试</h3><div class="wrap-body">
+<pre class="language-bash"><code class="language-bash code-highlight"><span class="code-line">/out/build/<span class="token operator">&#x3C;</span>platform<span class="token operator">></span>/frontend/frontend.exe <span class="token parameter variable">-u</span>
+</span><span class="code-line">//对所有协议进行本地化测试
+</span></code></pre>
+</div></div></div></div></div><div class="wrap h2body-exist"><div class="wrap-header h2wrap"><h2 id="库内容"><a aria-hidden="true" tabindex="-1" href="#库内容"><span class="icon icon-link"></span></a>库内容</h2><div class="wrap-body">
+</div></div><div class="h2wrap-body"><div class="wrap h3body-not-exist"><div class="wrap-header h3wrap"><h3 id="支持的psi协议"><a aria-hidden="true" tabindex="-1" href="#支持的psi协议"><span class="icon icon-link"></span></a>支持的psi协议</h3><div class="wrap-body">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table class="shortcuts"><thead><tr><th>符号</th><th>说明</th></tr></thead><tbody><tr><td><code>-dcwr</code></td><td>DCW13+PSZ14 - 随机混淆布隆过滤器（半诚实*）</td></tr><tr><td><code>-rr16</code></td><td>RR16 - 随机混淆布隆过滤器（恶意安全）</td></tr><tr><td><code>-rr17a</code></td><td>RR17 - 哈希到桶并比较风格（恶意安全，最快）</td></tr><tr><td><code>-rr17a-sm</code></td><td>RR17sm - 哈希到桶并比较风格（标准模型恶意安全）</td></tr><tr><td><code>-rr17b</code></td><td>RR17b - 哈希到桶并提交比较风格（恶意安全）</td></tr><tr><td><code>-grr</code></td><td>GRR19 - 哈希到桶并提交比较风格（差分隐私和恶意安全）</td></tr><tr><td><code>-dkt</code></td><td>DKT12 - 公钥风格（恶意安全）</td></tr><tr><td><code>-ecdh</code></td><td>ECHD - Diffie-Hellman 密钥交换（半诚实安全）</td></tr><tr><td><code>-kkrt</code></td><td>KKRT16 - 哈希到桶并比较风格（半诚实安全，最快）</td></tr><tr><td><code>-drrt</code></td><td>DRRN17 - 两服务器 PIR 风格（半诚实安全）</td></tr></tbody></table>
+<!--rehype:className=shortcuts--> 
+</div></div></div><div class="wrap h3body-not-exist"><div class="wrap-header h3wrap"><h3 id="基于文件的命令行参数"><a aria-hidden="true" tabindex="-1" href="#基于文件的命令行参数"><span class="icon icon-link"></span></a>基于文件的命令行参数</h3><div class="wrap-body">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table class="shortcuts"><thead><tr><th>参数</th><th>说明</th></tr></thead><tbody><tr><td>-in</td><td>参与方集合的路径。应该是包含 16 字节元素并具有 .bin 扩展名的二进制文件。否则，路径应具有 .csv 扩展名，并且每行一个元素，32 个字符的十六进制行最好。</td></tr><tr><td>-r</td><td>值应为 { 0, 1 }，其中 0 表示PSI发送方。</td></tr><tr><td>-out</td><td>输出文件路径。将以与输入相同的格式写入。（默认值 = in</td></tr><tr><td>-ip</td><td>PSI接收方的IP地址和端口。（默认值 = localhost:1212）</td></tr><tr><td>-server</td><td>值应为 {0, 1}，指示此参与方是否应为IP服务器。（默认值 = r）</td></tr><tr><td>-bin</td><td>始终将输入文件解释为二进制的可选标志。</td></tr><tr><td>-csv</td><td>始终将输入文件解释为CSV的可选标志。</td></tr><tr><td>-receiverSize</td><td>指定接收方集合大小的可选参数。</td></tr><tr><td>-senderSize</td><td>指定发送方集合大小的可选参数。</td></tr></tbody></table>
+<!--rehype:className=shortcuts--> 
+</div></div></div><div class="wrap h3body-not-exist"><div class="wrap-header h3wrap"><h3 id="基准命令行参数"><a aria-hidden="true" tabindex="-1" href="#基准命令行参数"><span class="icon icon-link"></span></a>基准命令行参数</h3><div class="wrap-body">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table class="shortcuts"><thead><tr><th>参数</th><th>说明</th></tr></thead><tbody><tr><td>-r</td><td>两个终端模式。值应为 { 0, 1 }，其中 0 表示PSI发送方和网络服务器。</td></tr><tr><td>-ip</td><td>服务器的IP地址和端口。（默认值 = localhost:1212）</td></tr><tr><td>-n</td><td>每个参与方拥有的项目数，以空格分隔。（默认值 = 256）</td></tr><tr><td>-nn</td><td>每个参与方拥有的项目数为2^n，以空格分隔。</td></tr><tr><td>-nn2</td><td>PIR PSI中服务器拥有的项目数为2^n，以空格分隔。</td></tr><tr><td>-t</td><td>每个参与方拥有的线程数，以空格分隔。（默认值 = 1）</td></tr><tr><td>-trials</td><td>执行的试验次数。（默认值 = 1）</td></tr><tr><td>-v</td><td>打印额外信息。（默认值 = 0）</td></tr><tr><td>-ping</td><td>执行ping和带宽测试（默认值 = 0）</td></tr><tr><td>-b</td><td>协议所依赖的位大小。</td></tr><tr><td>-s</td><td>使哈希到桶类型协议使用 n/s 个桶（默认值 = 1）</td></tr><tr><td>-bigBlock</td><td>每个PIR为PSI-PSI服务器数据库贡献的条目数量。大=较小的PIR查询但较大的PSI（默认值 = 16）</td></tr></tbody></table>
+<!--rehype:className=shortcuts--> 
+</div></div></div></div></div><div class="wrap h2body-exist"><div class="wrap-header h2wrap"><h2 id="运行实例"><a aria-hidden="true" tabindex="-1" href="#运行实例"><span class="icon icon-link"></span></a>运行实例</h2><div class="wrap-body">
+</div></div><div class="h2wrap-body"><div class="wrap h3body-not-exist col-span-2"><div class="wrap-header h3wrap"><h3 id="命令行输入"><a aria-hidden="true" tabindex="-1" href="#命令行输入"><span class="icon icon-link"></span></a>命令行输入</h3><div class="wrap-body">
+<!--rehype:wrap-class=col-span-2-->
+<p>这是私有集合交集计算库 libPSI 的前端程序的帮助信息。该程序支持多种协议和文件参数设置，可以用于执行私有集合交集计算。你可以根据需要选择不同的协议和参数设置来运行程序。</p>
+<pre class="language-bash"><code class="language-bash code-highlight"><span class="code-line">./frontend.exe <span class="token parameter variable">-kkrt</span> <span class="token parameter variable">-in</span> ReceiverDat.csv <span class="token parameter variable">-r</span> <span class="token number">1</span> <span class="token parameter variable">-out</span> Intersection.csv	
+</span><span class="code-line">./frontend.exe <span class="token parameter variable">-kkrt</span> <span class="token parameter variable">-in</span> SenderDat.csv <span class="token parameter variable">-r</span> <span class="token number">0</span>
+</span></code></pre>
+<p>在这个命令中：</p>
+<ul>
+<li><code>-kkrt</code> 表示选择 KKRT 协议进行私有集合交集计算。</li>
+<li><code>-in input.csv</code> 指定输入文件的路径和格式。你需要准备一个 CSV 文件，每行包含一个元素。</li>
+<li><code>-r 0</code> 表示当前执行的是 PSI 发送方。</li>
+<li><code>-out output.csv</code> 指定输出文件的路径和格式，计算结果将会保存在这个文件中。</li>
+</ul>
+</div></div></div><div class="wrap h3body-not-exist"><div class="wrap-header h3wrap"><h3 id="读取csv文件的逻辑"><a aria-hidden="true" tabindex="-1" href="#读取csv文件的逻辑"><span class="icon icon-link"></span></a>读取csv文件的逻辑</h3><div class="wrap-body">
+<p>readSet可以支持两种文件输入格式，二进制文件和csv文件。这里只讨论csv文件，因为csv文件更已读，而且对大数据文件支持更好。</p>
+<p>要求csv的每一个条目都是十六进制数hexdecimal，如果这个hex长度超128bit，则调用Random Oracle将它压缩为128bit，如果长度不足128bit则直接认定为128bit。最终这个128bit hex会转换成block类型的变量</p>
+<p>注意Intersection.csv存储的不是交集元素本身，而是交集元素在ReceiverDat.csv的位置索引。</p>
+<p>重复的索引对报告异常。重复的索引对表明在处理数据时出现了重复的值。PSI是没有顺序的，必须保证无重。</p>
+</div></div></div></div></div><div class="wrap h2body-not-exist"><div class="wrap-header h2wrap"><h2 id="另见"><a aria-hidden="true" tabindex="-1" href="#另见"><span class="icon icon-link"></span></a>另见</h2><div class="wrap-body">
+<ul>
+<li><a href="https://github.com/osu-crypto/libPSI">lib PSI仓库</a></li>
+</ul>
+</div></div><div class="h2wrap-body"></div></div></div><script src="https://giscus.app/client.js" data-repo="jaywcjlove/reference" data-repo-id="R_kgDOID2-Mw" data-category="Q&#x26;A" data-category-id="DIC_kwDOID2-M84CS5wo" data-mapping="pathname" data-strict="0" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="bottom" data-theme="dark" data-lang="zh-CN" crossorigin="anonymous" async></script><div class="giscus"></div></div><footer class="footer-wrap"><footer class="max-container">Copyright (c) <b>2024</b> xin-li™</footer></footer><script src="..\/data.js?v=1.5.3" defer></script><script src="..\/js/fuse.min.js?v=1.5.3" defer></script><script src="..\/js/main.js?v=1.5.3" defer></script><div id="mysearch"><div class="mysearch-box"><div class="mysearch-input"><div><svg xmlns="http://www.w3.org/2000/svg" height="1em" width="1em" viewBox="0 0 18 18">
+  <path fill="currentColor" d="M17.71,16.29 L14.31,12.9 C15.4069846,11.5024547 16.0022094,9.77665502 16,8 C16,3.581722 12.418278,0 8,0 C3.581722,0 0,3.581722 0,8 C0,12.418278 3.581722,16 8,16 C9.77665502,16.0022094 11.5024547,15.4069846 12.9,14.31 L16.29,17.71 C16.4777666,17.8993127 16.7333625,18.0057983 17,18.0057983 C17.2666375,18.0057983 17.5222334,17.8993127 17.71,17.71 C17.8993127,17.5222334 18.0057983,17.2666375 18.0057983,17 C18.0057983,16.7333625 17.8993127,16.4777666 17.71,16.29 Z M2,8 C2,4.6862915 4.6862915,2 8,2 C11.3137085,2 14,4.6862915 14,8 C14,11.3137085 11.3137085,14 8,14 C4.6862915,14 2,11.3137085 2,8 Z"></path>
+</svg><input id="mysearch-input" type="search" placeholder="搜索" autocomplete="off"><div class="mysearch-clear"></div></div><button id="mysearch-close" type="button">搜索</button></div><div class="mysearch-result"><div id="mysearch-menu"></div><div id="mysearch-content"></div></div></div></div></body>
+</html>
