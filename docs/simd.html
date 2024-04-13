@@ -1,0 +1,480 @@
+<!doctype html>
+<html lang="en" data-color-mode="dark">
+<head>
+<meta charset="utf-8">
+<title> SIMD
+ &#x26;  simd cheatsheet &#x26;  Whatcrypto</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta description="SIMD（Single Instruction Multiple Data）指令集，指单指令多数据流技术，可用一组指令对多组数据通进行并行操作。SIMD指令可以在一个控制器上控制同时多个平行的处理微元，一次指令运算执行多个数据流，这样在很多时候可以提高程序的运算速度。先行大部分的密码算法库都使用了SIMD加速。，为开发人员分享快速参考备忘单。">
+<meta keywords="simd,reference,Quick,Reference,cheatsheet,cheat,sheet">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20height%3D%221em%22%20width%3D%221em%22%3E%20%3Cpath%20d%3D%22m21.66%2010.44-.98%204.18c-.84%203.61-2.5%205.07-5.62%204.77-.5-.04-1.04-.13-1.62-.27l-1.68-.4c-4.17-.99-5.46-3.05-4.48-7.23l.98-4.19c.2-.85.44-1.59.74-2.2%201.17-2.42%203.16-3.07%206.5-2.28l1.67.39c4.19.98%205.47%203.05%204.49%207.23Z%22%20fill%3D%22%23c9d1d9%22%2F%3E%20%3Cpath%20d%3D%22M15.06%2019.39c-.62.42-1.4.77-2.35%201.08l-1.58.52c-3.97%201.28-6.06.21-7.35-3.76L2.5%2013.28c-1.28-3.97-.22-6.07%203.75-7.35l1.58-.52c.41-.13.8-.24%201.17-.31-.3.61-.54%201.35-.74%202.2l-.98%204.19c-.98%204.18.31%206.24%204.48%207.23l1.68.4c.58.14%201.12.23%201.62.27Zm2.43-8.88c-.06%200-.12-.01-.19-.02l-4.85-1.23a.75.75%200%200%201%20.37-1.45l4.85%201.23a.748.748%200%200%201-.18%201.47Z%22%20fill%3D%22%23228e6c%22%20%2F%3E%20%3Cpath%20d%3D%22M14.56%2013.89c-.06%200-.12-.01-.19-.02l-2.91-.74a.75.75%200%200%201%20.37-1.45l2.91.74c.4.1.64.51.54.91-.08.34-.38.56-.72.56Z%22%20fill%3D%22%23228e6c%22%20%2F%3E%20%3C%2Fsvg%3E" type="image/svg+xml">
+<link rel="stylesheet" href="..\style\style.css">
+<link rel="stylesheet" href="..\style\katex.css">
+</head>
+<body><nav class="header-nav"><div class="max-container"><a href="..\index.html" class="logo"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" height="1em" width="1em">
+  <path d="m21.66 10.44-.98 4.18c-.84 3.61-2.5 5.07-5.62 4.77-.5-.04-1.04-.13-1.62-.27l-1.68-.4c-4.17-.99-5.46-3.05-4.48-7.23l.98-4.19c.2-.85.44-1.59.74-2.2 1.17-2.42 3.16-3.07 6.5-2.28l1.67.39c4.19.98 5.47 3.05 4.49 7.23Z" fill="#c9d1d9"></path>
+  <path d="M15.06 19.39c-.62.42-1.4.77-2.35 1.08l-1.58.52c-3.97 1.28-6.06.21-7.35-3.76L2.5 13.28c-1.28-3.97-.22-6.07 3.75-7.35l1.58-.52c.41-.13.8-.24 1.17-.31-.3.61-.54 1.35-.74 2.2l-.98 4.19c-.98 4.18.31 6.24 4.48 7.23l1.68.4c.58.14 1.12.23 1.62.27Zm2.43-8.88c-.06 0-.12-.01-.19-.02l-4.85-1.23a.75.75 0 0 1 .37-1.45l4.85 1.23a.748.748 0 0 1-.18 1.47Z" fill="#228e6c"></path>
+  <path d="M14.56 13.89c-.06 0-.12-.01-.19-.02l-2.91-.74a.75.75 0 0 1 .37-1.45l2.91.74c.4.1.64.51.54.91-.08.34-.38.56-.72.56Z" fill="#228e6c"></path>
+</svg>
+<span class="title">Whatcrypto</span></a><div class="menu"><a href="javascript:void(0);" class="searchbtn" id="searchbtn"><svg xmlns="http://www.w3.org/2000/svg" height="1em" width="1em" viewBox="0 0 18 18">
+  <path fill="currentColor" d="M17.71,16.29 L14.31,12.9 C15.4069846,11.5024547 16.0022094,9.77665502 16,8 C16,3.581722 12.418278,0 8,0 C3.581722,0 0,3.581722 0,8 C0,12.418278 3.581722,16 8,16 C9.77665502,16.0022094 11.5024547,15.4069846 12.9,14.31 L16.29,17.71 C16.4777666,17.8993127 16.7333625,18.0057983 17,18.0057983 C17.2666375,18.0057983 17.5222334,17.8993127 17.71,17.71 C17.8993127,17.5222334 18.0057983,17.2666375 18.0057983,17 C18.0057983,16.7333625 17.8993127,16.4777666 17.71,16.29 Z M2,8 C2,4.6862915 4.6862915,2 8,2 C11.3137085,2 14,4.6862915 14,8 C14,11.3137085 11.3137085,14 8,14 C4.6862915,14 2,11.3137085 2,8 Z"></path>
+</svg><span>搜索</span><span>⌘K</span></a><a href="https://github.com/xin-li-sdu/xin-li-sdu/blob/main/docs/simd.md" class="" target="__blank"><svg viewBox="0 0 36 36" fill="currentColor" height="1em" width="1em"><path d="m33 6.4-3.7-3.7a1.71 1.71 0 0 0-2.36 0L23.65 6H6a2 2 0 0 0-2 2v22a2 2 0 0 0 2 2h22a2 2 0 0 0 2-2V11.76l3-3a1.67 1.67 0 0 0 0-2.36ZM18.83 20.13l-4.19.93 1-4.15 9.55-9.57 3.23 3.23ZM29.5 9.43 26.27 6.2l1.85-1.85 3.23 3.23Z"></path><path fill="none" d="M0 0h36v36H0z"></path></svg><span>编辑</span></a><button id="darkMode" type="button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="light" height="1em" width="1em">
+  <path d="M6.995 12c0 2.761 2.246 5.007 5.007 5.007s5.007-2.246 5.007-5.007-2.246-5.007-5.007-5.007S6.995 9.239 6.995 12zM11 19h2v3h-2zm0-17h2v3h-2zm-9 9h3v2H2zm17 0h3v2h-3zM5.637 19.778l-1.414-1.414 2.121-2.121 1.414 1.414zM16.242 6.344l2.122-2.122 1.414 1.414-2.122 2.122zM6.344 7.759 4.223 5.637l1.415-1.414 2.12 2.122zm13.434 10.605-1.414 1.414-2.122-2.122 1.414-1.414z"></path>
+</svg>
+<svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" class="dark" height="1em" width="1em">
+  <path d="M12 11.807A9.002 9.002 0 0 1 10.049 2a9.942 9.942 0 0 0-5.12 2.735c-3.905 3.905-3.905 10.237 0 14.142 3.906 3.906 10.237 3.905 14.143 0a9.946 9.946 0 0 0 2.735-5.119A9.003 9.003 0 0 1 12 11.807z"></path>
+</svg>
+</button><script src="../js/dark.js?v=1.5.3"></script><a href="https://github.com/xin-li-sdu/xin-li-sdu" class="" target="__blank"><svg viewBox="0 0 16 16" fill="currentColor" height="1em" width="1em"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"></path></svg></a></div></div></nav><div class="wrap h1body-exist max-container"><header class="wrap-header h1wrap"><h1 id="simd"><svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" fill="currentColor" height="1em" width="1em">
+  <path d="M107.946667 838.4l57.173333 23.893333v-385.28l-103.68 250.026667c-17.493333 43.52 3.413333 93.44 46.506667 111.36z m832-157.866667L728.32 169.813333a85.888 85.888 0 0 0-77.226667-52.48c-11.093333 0-22.613333 1.706667-33.706666 6.4L302.933333 253.866667a85.290667 85.290667 0 0 0-46.08 110.933333l211.626667 510.72a85.248 85.248 0 0 0 110.933333 46.08l314.026667-130.133333a85.077333 85.077333 0 0 0 46.506667-110.933334zM336.213333 373.333333c-23.466667 0-42.666667-19.2-42.666666-42.666666s19.2-42.666667 42.666666-42.666667 42.666667 19.2 42.666667 42.666667-19.2 42.666667-42.666667 42.666666z m-85.333333 469.333334c0 46.933333 38.4 85.333333 85.333333 85.333333h61.866667l-147.2-355.84v270.506667z"></path>
+</svg><a aria-hidden="true" tabindex="-1" href="#simd"><span class="icon icon-link"></span></a>SIMD</h1><div class="wrap-body">
+<p>SIMD（Single Instruction Multiple Data）指令集，指单指令多数据流技术，可用一组指令对多组数据通进行并行操作。SIMD指令可以在一个控制器上控制同时多个平行的处理微元，一次指令运算执行多个数据流，这样在很多时候可以提高程序的运算速度。先行大部分的密码算法库都使用了SIMD加速。</p>
+</div></header><div class="menu-tocs"><div class="menu-btn"><svg aria-hidden="true" fill="currentColor" height="1em" width="1em" viewBox="0 0 16 16" version="1.1" data-view-component="true">
+  <path fill-rule="evenodd" d="M2 4a1 1 0 100-2 1 1 0 000 2zm3.75-1.5a.75.75 0 000 1.5h8.5a.75.75 0 000-1.5h-8.5zm0 5a.75.75 0 000 1.5h8.5a.75.75 0 000-1.5h-8.5zm0 5a.75.75 0 000 1.5h8.5a.75.75 0 000-1.5h-8.5zM3 8a1 1 0 11-2 0 1 1 0 012 0zm-1 6a1 1 0 100-2 1 1 0 000 2z"></path>
+</svg></div><div class="menu-modal"><a aria-hidden="true" class="leve2 tocs-link" data-num="2" href="#avx">AVX</a><a aria-hidden="true" class="leve3 tocs-link" data-num="3" href="#入门">入门</a><a aria-hidden="true" class="leve3 tocs-link" data-num="3" href="#数据类型">数据类型</a><a aria-hidden="true" class="leve3 tocs-link" data-num="3" href="#函数名称">函数名称</a><a aria-hidden="true" class="leve3 tocs-link" data-num="3" href="#标量值初始化">标量值初始化</a><a aria-hidden="true" class="leve3 tocs-link" data-num="3" href="#从内存中加载数据">从内存中加载数据</a><a aria-hidden="true" class="leve3 tocs-link" data-num="3" href="#乘除法">乘除法</a><a aria-hidden="true" class="leve3 tocs-link" data-num="3" href="#加减法">加减法</a><a aria-hidden="true" class="leve3 tocs-link" data-num="3" href="#融合乘法和加法">融合乘法和加法</a><a aria-hidden="true" class="leve3 tocs-link" data-num="3" href="#排列">排列</a><a aria-hidden="true" class="leve2 tocs-link" data-num="2" href="#sse">SSE</a></div></div><div class="h1wrap-body"><div class="wrap h2body-exist"><div class="wrap-header h2wrap"><h2 id="avx"><a aria-hidden="true" tabindex="-1" href="#avx"><span class="icon icon-link"></span></a>AVX</h2><div class="wrap-body">
+</div></div><div class="h2wrap-body"><div class="wrap h3body-not-exist"><div class="wrap-header h3wrap"><h3 id="入门"><a aria-hidden="true" tabindex="-1" href="#入门"><span class="icon icon-link"></span></a>入门</h3><div class="wrap-body">
+<p>AVX为在Inter CPU处理器上实现SIMD操作的指令集。主要衍化流程为：</p>
+<ol>
+<li>
+<p>AVX，全称为：Advanced Vector Extensions（又名，Sandy Bridge New Extensions）,是Intel和AMD微服务器x86指令集的extension扩展。</p>
+</li>
+<li>
+<p>AVX2扩充到了支持256bit的整数运算指令，引入了Fused-Multiply-Add(FMA)运算。所谓FMA，即可通过单一指令实现A = A ∗ B + C A=A*B+CA=A∗B+C计算。</p>
+</li>
+<li>
+<p>AVX-512通过使用新的EVEX prefix编码方式，将AVX扩充到了支持512-bit运算。</p>
+</li>
+</ol>
+<p>在C++中使用AVX（Advanced Vector Extensions）指令集，需要包含相应的头文件以使用AVX指令：</p>
+<pre class="language-cpp"><code class="language-cpp code-highlight"><span class="code-line"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&#x3C;immintrin.h></span></span>
+</span></code></pre>
+<p><code>immintrin.h</code> 头文件包含了许多 AVX、AVX2 和 AVX-512 指令的声明，以及相应的数据类型和函数。这个头文件提供了对 AVX 指令的访问和使用所需的所有定义和声明。</p>
+<p>在包含了 <code>immintrin.h</code> 后，可以在代码中使用 AVX 指令了。请注意，使用 AVX 指令需要确保编译器支持 AVX 指令集，并且需要在编译选项中启用相应的优化标志，如 <code>-mavx</code></p>
+</div></div></div><div class="wrap h3body-not-exist col-span-2"><div class="wrap-header h3wrap"><h3 id="数据类型"><a aria-hidden="true" tabindex="-1" href="#数据类型"><span class="icon icon-link"></span></a><strong>数据类型</strong></h3><div class="wrap-body">
+<!--rehype:wrap-class=col-span-2-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>数据类型</th><th>描述</th><th>元素个数</th><th>元素大小</th><th>总大小</th></tr></thead><tbody><tr><td>__m128</td><td>包含 4 个单精度浮点数的向量</td><td>4</td><td>32 位</td><td>128 位</td></tr><tr><td>__m128d</td><td>包含 2 个双精度浮点数的向量</td><td>2</td><td>64 位</td><td>128 位</td></tr><tr><td>__m128i</td><td>包含若干个整型数字的向量</td><td>-</td><td>128 位</td><td>128 位</td></tr><tr><td>__m256</td><td>包含 8 个单精度浮点数的向量</td><td>8</td><td>32 位</td><td>256 位</td></tr><tr><td>__m256d</td><td>包含 4 个双精度浮点数的向量</td><td>4</td><td>64 位</td><td>256 位</td></tr><tr><td>__m256i</td><td>包含若干个整型数字的向量</td><td>-</td><td>256 位</td><td>256 位</td></tr></tbody></table>
+<p>前面带**<code>两个</code>**下划线</p>
+<p>名字里带<code>128</code>的 = 一个向量包含128个bit = 32 byte</p>
+<p>名字里带<code>256</code>的 = 一个向量包含256个bit = 64 byte</p>
+<p>尾巴啥也不带的 = 里面都是<code>float</code>，一个<code>float</code>=32bit</p>
+<p>尾巴带<code>d</code>的 = 里面都是<code>double</code>，一个<code>double</code>=64bit</p>
+<p>尾巴带<code>i</code>的 = 里面都是整型，根据整型的类型不同，个数也不同</p>
+</div></div></div><div class="wrap h3body-not-exist col-span-3"><div class="wrap-header h3wrap"><h3 id="函数名称"><a aria-hidden="true" tabindex="-1" href="#函数名称"><span class="icon icon-link"></span></a><strong>函数名称</strong></h3><div class="wrap-body">
+<!--rehype:wrap-class=col-span-3-->
+<pre class="language-cpp"><code class="language-cpp code-highlight"><span class="code-line">_mm<span class="token operator">&#x3C;</span>bit_width<span class="token operator">></span>_<span class="token operator">&#x3C;</span>name<span class="token operator">></span>_<span class="token operator">&#x3C;</span>data_type<span class="token operator">></span>
+</span></code></pre>
+<ul>
+<li><code>&#x3C;bit_width></code> 返回的向量的类型，返回的是256bit大小的就是256，返回128大小的，这里就是空的。还有一些特殊的：store没有返回(void)；test系列比较两个输入是否相同，返回0或1。</li>
+<li><code>&#x3C;name></code> 函数的名字，基本通过名字就可以看出功能啦～</li>
+<li><code>&#x3C;data_type></code> 表示这个函数在处理数据时，会把输入的数据当作什么类型去处理</li>
+</ul>
+<p>关于**&#x3C;data_type>**，因为m256i / m128i中的整型多种多样，需要告诉AVX里面的整型大小(size)是多少。</p>
+<ol>
+<li><code>ps</code>：里面都是float，把32bits当成一个数看</li>
+<li><code>pd</code>：里面都是double，把64bits当成一个数看</li>
+<li><code>epi8</code>/<code>epi16</code>/<code>epi32</code>/<code>epi64</code>：向量里每个数都是整型，一个整型8bit/16bit/32bit/64bit</li>
+<li><code>epu8</code>/<code>epu16</code>/<code>epu32</code>/<code>epu64</code>：向量里每个数都是无符号整型(unsigned)，一个整型8bit/16bit/32bit/64bit</li>
+<li><code>m128</code>/<code>m128i</code>/<code>m128d</code>/<code>m256</code>/<code>m256i</code>/<code>m256d</code>：输入值与返回类型不同时会出现 ，例如<code>__m256i_mm256_setr_m128i(__m128ilo,__m128ihi)</code>，输入两个<code>__m128i</code>向量 ，把他们拼在一起，变成一个<code>__m256i</code>返回 。另外这种结尾只见于<code>load</code></li>
+<li><code>si128</code>/<code>si256</code>：不care向量里到底都是些啥类型，反正128bit/256bit，例如：</li>
+</ol>
+<pre class="language-cpp"><code class="language-cpp code-highlight"><span class="code-line">__m256i <span class="token function">_mm_broadcastsi128_si256</span> <span class="token punctuation">(</span>__m128i a<span class="token punctuation">)</span>
+</span></code></pre>
+<p>此函数接收一个128-bit的<code>__m128i</code>，然后将这<code>__m128i</code>的128位，按位放入返回的<code>__m256i</code> 类型的前128位(127-0)中，再按位放入(复制到)后128位(255-128)中。因为不涉及单个数操作，将128位看成整体操作，所以不用在意其中每个数的数据类型。</p>
+<p><code>si128</code>/<code>si256</code>基本只见于</p>
+<ul>
+<li><code>broadcast</code>：复制2遍<code>__m128i</code>，放入 <code>__m256i</code>；</li>
+<li><code>cast</code>：
+<ul>
+<li><code>__m128i</code>转型<code>__m256i</code>(upper 128 bit undefined) ,</li>
+<li><code>__m256i</code>转型 <code>__m128i</code></li>
+</ul>
+</li>
+</ul>
+<p>总而言之<code>5</code> &#x26; <code>6</code>两种并不太常见。</p>
+</div></div></div><div class="wrap h3body-not-exist"><div class="wrap-header h3wrap"><h3 id="标量值初始化"><a aria-hidden="true" tabindex="-1" href="#标量值初始化"><span class="icon icon-link"></span></a>标量值初始化</h3><div class="wrap-body">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>数据类型</th><th>描述</th></tr></thead><tbody><tr><td>_mm256_setzero_ps/pd</td><td>返回一个全0的 float 类型的向量</td></tr><tr><td>_mm256_setzero_si256</td><td>返回一个全0的整型向量</td></tr><tr><td>_mm256_set1_ps/pd</td><td>用一个 float 类型的数填充向量</td></tr><tr><td>_mm256_set1_epi8/epi16/epi32/epi64x</td><td>用整型数填充向量</td></tr><tr><td>_mm256_set_ps/pd</td><td>用8个 float 或者4个 double 类型数字初始化向量</td></tr><tr><td>_mm256_set_epi8/epi16/epi32/epi64x</td><td>用一个整型数初始化向量</td></tr><tr><td>_mm256_set_m128/m128d/m128i</td><td>用2个128位的向量初始化一个256位向量</td></tr><tr><td>_mm256_setr_ps/pd</td><td>用8个 float 或者4个 double 的转置顺序初始化向量</td></tr><tr><td>_mm256_setr_epi8/epi16/epi32/epi64x</td><td>用若干个整型数的转置顺序初始化向量</td></tr></tbody></table>
+</div></div></div><div class="wrap h3body-not-exist"><div class="wrap-header h3wrap"><h3 id="从内存中加载数据"><a aria-hidden="true" tabindex="-1" href="#从内存中加载数据"><span class="icon icon-link"></span></a>从内存中加载数据</h3><div class="wrap-body">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>数据类型</th><th>描述</th></tr></thead><tbody><tr><td>_mm256_load_ps/pd</td><td>从对齐的内存地址加载浮点向量</td></tr><tr><td>_mm256_load_si256</td><td>从对齐的内存地址加载整型向量</td></tr><tr><td>_mm256_loadu_ps/pd</td><td>从未对齐的内存地址加载浮点向量</td></tr><tr><td>_mm256_loadu_si256</td><td>从未对齐的内存地址加载整型向量</td></tr><tr><td>_mm_maskload_ps/pd</td><td>根据掩码加载128位浮点向量的部分</td></tr><tr><td>_mm256_maskload_ps/pd</td><td>根据掩码加载256位浮点向量的部分</td></tr><tr><td>(2)_mm_maskload_epi32/64</td><td>根据掩码加载128位整型向量的部分</td></tr><tr><td>(2)_mm256_maskload_epi32/64</td><td>根据掩码加载256位整型向量的部分</td></tr></tbody></table>
+<p>最后2个函数前面有一个<code>(2)</code>，代表这两个函数只在<code>AVX2</code>中支持,下面<code>(2)</code>同理</p>
+</div></div></div><div class="wrap h3body-not-exist"><div class="wrap-header h3wrap"><h3 id="乘除法"><a aria-hidden="true" tabindex="-1" href="#乘除法"><span class="icon icon-link"></span></a>乘除法</h3><div class="wrap-body">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>数据类型</th><th>描述</th></tr></thead><tbody><tr><td>_mm256_mul_ps/pd</td><td>对两个 float 类型的向量进行相乘</td></tr><tr><td>(2)_mm256_mul_epi32</td><td>将包含 32 位整数的向量的最低四个元素相乘</td></tr><tr><td>(2)_mm256_mul_epu32</td><td>将无符号 32 位整数的向量的最低四个元素相乘</td></tr><tr><td>(2)_mm256_mullo_epi16/32</td><td>将整数相乘并存储低半部分</td></tr><tr><td>(2)_mm256_mulhi_epi16</td><td>将整数相乘并存储高半部分</td></tr><tr><td>(2)_mm256_mulhi_epu16</td><td>将无符号整数相乘并存储高半部分</td></tr><tr><td>(2)_mm256_mulhrs_epi16</td><td>将16位元素相乘以形成32位元素</td></tr><tr><td>_mm256_div_ps/pd</td><td>对两个 float 类型的向量进行除法</td></tr></tbody></table>
+</div></div></div><div class="wrap h3body-not-exist"><div class="wrap-header h3wrap"><h3 id="加减法"><a aria-hidden="true" tabindex="-1" href="#加减法"><span class="icon icon-link"></span></a>加减法</h3><div class="wrap-body">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>数据类型</th><th>描述</th></tr></thead><tbody><tr><td>_mm256_add_ps/pd</td><td>对两个浮点向量做加法</td></tr><tr><td>_mm256_sub_ps/pd</td><td>对两个浮点向量做减法</td></tr><tr><td>(2)_mm256_add_epi8/16/32/64</td><td>对两个整型向量做加法</td></tr><tr><td>(2)_mm256_sub_epi8/16/32/64</td><td>对两个整型向量做减法</td></tr><tr><td>(2)_mm256_adds_epi8/16</td><td>两个整数向量相加且考虑内存饱和问题</td></tr><tr><td>(2)_mm256_adds_epu8/16</td><td>两个无符号整数向量相加且考虑内存饱和问题</td></tr><tr><td>(2)_mm256_subs_epi8/16</td><td>两个整数向量相减且考虑内存饱和问题</td></tr><tr><td>(2)_mm256_subs_epu8/16</td><td>两个无符号整数向量相减且考虑内存饱和问题</td></tr><tr><td>_mm256_hadd_ps/pd</td><td>水平方向上对两个浮点向量做加法</td></tr><tr><td>_mm256_hsub_ps/pd</td><td>垂直方向上对两个浮点向量做减法</td></tr><tr><td>(2)_mm256_hadd_epi16/32</td><td>水平方向上对两个整型向量做加法</td></tr><tr><td>(2)_mm256_hsub_epi16/32</td><td>水平方向上对两个整型向量做减法</td></tr><tr><td>(2)_mm256_hadds_epi16</td><td>对两个包含 short 类型的向量做加法且考虑内存饱和问题</td></tr><tr><td>(2)_mm256_hsubs_epi16</td><td>对两个包含 short 类型的向量做减法且考虑内存饱和问题</td></tr><tr><td>_mm256_addsub_ps/pd</td><td>加上和减去两个浮点类型的向量</td></tr></tbody></table>
+</div></div></div><div class="wrap h3body-not-exist"><div class="wrap-header h3wrap"><h3 id="融合乘法和加法"><a aria-hidden="true" tabindex="-1" href="#融合乘法和加法"><span class="icon icon-link"></span></a>融合乘法和加法</h3><div class="wrap-body">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>指令</th><th>描述</th></tr></thead><tbody><tr><td><code>_mm_fmadd_ps/pd</code></td><td>将两个向量相乘，再将第三个向量的对应元素加到乘积中。</td></tr><tr><td><code>_mm256_fmadd_ps/pd</code></td><td>将两个向量相乘，再将第三个向量的对应元素加到乘积中。</td></tr><tr><td><code>_mm_fmsub_ps/pd</code></td><td>将两个向量相乘，然后将第三个向量的对应元素从乘积中减去。</td></tr><tr><td><code>_mm256_fmsub_ps/pd</code></td><td>将两个向量相乘，然后将第三个向量的对应元素从乘积中减去。</td></tr><tr><td><code>_mm_fmadd_ss/sd</code></td><td>将两个向量的最低元素相乘并相加。</td></tr><tr><td><code>_mm_fmsub_ss/sd</code></td><td>将两个向量的最低元素相乘并相减。</td></tr><tr><td><code>_mm_fnmadd_ps/pd</code></td><td>将两个向量相乘，并将负乘积加到第三个向量中。</td></tr><tr><td><code>_mm256_fnmadd_ps/pd</code></td><td>将两个向量相乘，并将负乘积加到第三个向量中。</td></tr><tr><td><code>_mm_fnmsub_ps/pd</code></td><td>将两个向量相乘，并将负乘积减去第三个向量。</td></tr><tr><td><code>_mm256_fnmsub_ps/pd</code></td><td>将两个向量相乘，并将负乘积减去第三个向量。</td></tr><tr><td><code>_mm_fmaddsub_ps/pd</code></td><td>将两个向量相乘，然后交替地将第三个向量的对应元素加到或减去乘积中。</td></tr><tr><td><code>_mm256_fmaddsub_ps/pd</code></td><td>将两个向量相乘，然后交替地将第三个向量的对应元素加到或减去乘积中。</td></tr><tr><td><code>_mm_fmsubadd_ps/pd</code></td><td>将两个向量相乘，然后交替地将第三个向量的对应元素减去或加到乘积中，取决于元素的位置（奇数次方或偶数次方）。</td></tr><tr><td><code>_mmf256_fmsubadd_ps/pd</code></td><td>将两个向量相乘，然后交替地将第三个向量的对应元素减去或加到乘积中，取决于元素的位置（奇数次方或偶数次方）。</td></tr></tbody></table>
+</div></div></div><div class="wrap h3body-not-exist"><div class="wrap-header h3wrap"><h3 id="排列"><a aria-hidden="true" tabindex="-1" href="#排列"><span class="icon icon-link"></span></a>排列</h3><div class="wrap-body">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>指令</th><th>描述</th></tr></thead><tbody><tr><td><code>_mm_permute_ps/pd</code></td><td>根据8位控制值从输入向量中选择元素。</td></tr><tr><td><code>_mm256_permute_ps/pd</code></td><td>根据8位控制值从输入向量中选择元素。</td></tr><tr><td><code>_mm256_permute4x64_pd</code></td><td>根据8位控制值从输入向量中选择64位元素。</td></tr><tr><td><code>_mm256_permute4x64_epi64</code></td><td>根据8位控制值从输入向量中选择64位元素。</td></tr><tr><td><code>_mm256_permute2f128_ps/pd</code></td><td>基于8位控制值从两个输入向量中选择128位块。</td></tr><tr><td><code>_mm256_permute2f128_si256</code></td><td>基于8位控制值从两个输入向量中选择128位块。</td></tr><tr><td><code>_mm_permutevar_ps/pd</code></td><td>根据整数向量中的位从输入向量中选择元素。</td></tr><tr><td><code>_mm256_permutevar_ps/pd</code></td><td>根据整数向量中的位从输入向量中选择元素。</td></tr><tr><td><code>_mm256_permutevar8x32_ps</code></td><td>使用整数向量中的索引选择32位元素（浮点）。</td></tr><tr><td><code>_mm256_permutevar8x32_epi32</code></td><td>使用整数向量中的索引选择32位元素（整数）。</td></tr></tbody></table>
+</div></div></div></div></div><div class="wrap h2body-not-exist"><div class="wrap-header h2wrap"><h2 id="sse"><a aria-hidden="true" tabindex="-1" href="#sse"><span class="icon icon-link"></span></a>SSE</h2><div class="wrap-body">
+<p>想要使用SSE指令，则需要包含对应的头文件：</p>
+<pre class="language-cpp"><code class="language-cpp code-highlight"><span class="code-line"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&#x3C;mmintrin.h></span>   <span class="token comment">//mmx</span></span>
+</span><span class="code-line"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&#x3C;xmmintrin.h></span>  <span class="token comment">//sse</span></span>
+</span><span class="code-line"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&#x3C;emmintrin.h></span>  <span class="token comment">//sse2</span></span>
+</span><span class="code-line"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&#x3C;pmmintrin.h></span>  <span class="token comment">//sse3</span></span>
+</span></code></pre>
+</div></div><div class="h2wrap-body"></div></div></div><script src="https://giscus.app/client.js" data-repo="jaywcjlove/reference" data-repo-id="R_kgDOID2-Mw" data-category="Q&#x26;A" data-category-id="DIC_kwDOID2-M84CS5wo" data-mapping="pathname" data-strict="0" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="bottom" data-theme="dark" data-lang="zh-CN" crossorigin="anonymous" async></script><div class="giscus"></div></div><footer class="footer-wrap"><footer class="max-container">Copyright (c) <b>2024</b> xin-li™</footer></footer><script src="..\/data.js?v=1.5.3" defer></script><script src="..\/js/fuse.min.js?v=1.5.3" defer></script><script src="..\/js/main.js?v=1.5.3" defer></script><div id="mysearch"><div class="mysearch-box"><div class="mysearch-input"><div><svg xmlns="http://www.w3.org/2000/svg" height="1em" width="1em" viewBox="0 0 18 18">
+  <path fill="currentColor" d="M17.71,16.29 L14.31,12.9 C15.4069846,11.5024547 16.0022094,9.77665502 16,8 C16,3.581722 12.418278,0 8,0 C3.581722,0 0,3.581722 0,8 C0,12.418278 3.581722,16 8,16 C9.77665502,16.0022094 11.5024547,15.4069846 12.9,14.31 L16.29,17.71 C16.4777666,17.8993127 16.7333625,18.0057983 17,18.0057983 C17.2666375,18.0057983 17.5222334,17.8993127 17.71,17.71 C17.8993127,17.5222334 18.0057983,17.2666375 18.0057983,17 C18.0057983,16.7333625 17.8993127,16.4777666 17.71,16.29 Z M2,8 C2,4.6862915 4.6862915,2 8,2 C11.3137085,2 14,4.6862915 14,8 C14,11.3137085 11.3137085,14 8,14 C4.6862915,14 2,11.3137085 2,8 Z"></path>
+</svg><input id="mysearch-input" type="search" placeholder="搜索" autocomplete="off"><div class="mysearch-clear"></div></div><button id="mysearch-close" type="button">搜索</button></div><div class="mysearch-result"><div id="mysearch-menu"></div><div id="mysearch-content"></div></div></div></div></body>
+</html>
